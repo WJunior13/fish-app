@@ -53,7 +53,7 @@
 	  .linha-visor>.icone_Temperatura{
 		 width: 5px;
 		 height: 5px;
-		 background: red;
+		 
 	  }
   }
 
