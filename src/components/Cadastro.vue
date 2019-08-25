@@ -52,9 +52,9 @@
 	confSenha = document.f1.confSenha.value
  
 	if (senha == confSenha)
-		alert("SENHAS IGUgewgeAIS")
+		alert("SENHAS IGUAIS")
 	else
-		alert("SENHAS DIFEREegsdesgeES")
+		alert("SENHAS DIFERENTES")
 }
 </script>
 
