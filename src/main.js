@@ -5,15 +5,18 @@ import Login from '@/components/Login.vue'
 import Init from '@/components/Init.vue'
 import Cadastro from '@/components/Cadastro.vue'
 
+
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Router from 'vue-router'
-
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+    
+Vue.use(VueAxios, axios)
 Vue.use(Router)
-
-
 Vue.use(BootstrapVue)
+
 Vue.config.productionTip = false
 
 
@@ -25,6 +28,7 @@ const router=new Router({
     { path: '/home', name:'home',component: Home },
     { path: '/init', name:'init',component: Init },
     { path: '/cadastro',name:'cadastro',  component: Cadastro },
+   
     
   ]
 });

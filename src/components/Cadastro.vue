@@ -1,65 +1,98 @@
 <template>
-<div id="cadastro">
-   <form class="needs-validation" name="f1">
-  <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip01">Número de Série</label>
-      <input type="number" class="form-control" id="validationTooltip01" placeholder="Informe o nº de série do controlador"  required>
-      <div class="valid-tooltip">
+  <div id="controlador">
+    <form class="needs-validation" name="f1" @submit="formSubmit">
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="validationTooltip01">Número de Série</label>
+          <input
+            type="number"
+            class="form-control"
+            id="nserie"
+            placeholder="Informe o nº de série do controlador"
+            name="nserie"
+            v-model="nserie"
+            required
+          />
+          <div class="valid-tooltip"></div>
+        </div>
       </div>
-    </div>
-   </div>
-   <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip02">Criar senha</label>
-      <input type="password" class="form-control" id="validationTooltip02" name="senha" placeholder="Informe uma senha" size="10"  required>
-      <div class="valid-tooltip">
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="validationTooltip02">Criar senha</label>
+          <input
+            type="password"
+            class="form-control"
+            id="senha01"
+            name="seha"
+            placeholder="Informe uma senha"
+            size="10"
+            required
+          />
+          <div class="valid-tooltip"></div>
+        </div>
       </div>
-    </div>
-   </div>
-   <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <label for="validationTooltip03">Confirmar senha</label>
-      <input type="password" class="form-control" id="validationTooltip03" name="confSenha" placeholder="Confirme sua senha" size="10" required>
-      <div class="valid-tooltip">
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="validationTooltip03">Confirmar senha</label>
+          <input
+            type="password"
+            class="form-control"
+            id="senha"
+            name="senha"
+            placeholder="Confirme sua senha"
+            size="10"
+            v-model="senha"
+            required
+          />
+          <div class="valid-tooltip"></div>
+        </div>
       </div>
-    </div>
-   </div>
-    
 
-  
-  <button class="btn btn-primary" type="submit">Enviar</button>
-  <button class="btn btn-danger" type="esc">Cancelar</button>
-</form>
-</div>
-
+      <button class="btn btn-primary" type="submit">Enviar</button>
+       <router-link  to='/home'><button class="btn btn-danger" type="reset">Cancelar</button></router-link>
+    </form>
+  </div>
 </template>
 
 <script>
-  export default {
-   name:'cadastro',
-    data() {
-      return {
-        cadastro: {
-          nserie: '',
-          senha: '',
-        },
+import api from "@/services/api";
+export default {
+  name: "cadastro",
+  data() {
+    return {
+      nserie: "",
+      senha: ""
+    };
+  },
+  watch:{
+    nserie:function(){
+      console.log(this.nserie)
+    }
+  },
+  methods: {
+    async formSubmit(e) {
+      e.preventDefault();
+      try {
+        const controlador = {
+          nserie: this.nserie,
+          senha: this.senha
+        };
+        await api.post("cadastro", controlador);
+        console.log("salvo");
+      } catch (error) {
+        console.log(error);
       }
-    },
+    }
   }
-  function validarSenha(){
-	senha = document.f1.senha.value
-	confSenha = document.f1.confSenha.value
- 
-	if (senha == confSenha)
-		alert("SENHAS IGUAIS")
-	else
-		alert("SENHAS DIFERENTES")
-}
+};
 </script>
 
 <style scoped>
-  form {
-    margin-bottom: 2rem;
-  }
+form {
+  margin-bottom: 2rem;
+  padding: 15px;
+}
+button{
+   margin: 0 5px;
+}
 </style>

@@ -1,11 +1,18 @@
 <template>
 		<div class="container">
+			<setup v-if="showSetup"></setup>
 			<div class="row">
 				<div id="" class="col-8 mx-auto weather">
-					<div class="weather-head">
-						<h1 id="data" class="text-center display-4">30/07/2019, 19:50</h1>
+					<div class="visor-data">
+						
+						<h1 id="data" class="text-center display-4">{{dateNow | date}}, {{aTime}}</h1>
+						<div>
+						<router-link  to='/setup'>
+						<img src="../assets/settings.svg" alt="imagem" class="icone-settings">
+						</router-link>
+						</div>
 						<div class='linha-visor'>							
-							<div id="descri	ption" class="">
+							<div id="description" class="">
 								<img src="../assets/bubbles.svg" alt="imagem" class="icone-bolha">		
 							</div>
 							
@@ -39,27 +46,93 @@
 				</div>
 			</div>
 		</div>
-  
+ 
 </template>
 
+<script>
+import Setup from '@/components/Setup.vue'
+   export default {
+  name: "init",
+  data() {
+    return {
+	  dateNow: new Date(),
+	  time: '00:00:00',
+	  showSetup: false,
+	   
+	}
+  },
+  filters: {
+	date: formatDate,
+	hour:time
+  },
+  computed:{
+	 aTime: function() {
+      var self = this;
+      setInterval(function() {
+        self.time = getAtime();
+      }, 1000);
+      return self.time;
+    }
+  },
+   components:{
+	   Setup
+   },
+   methods:{
+	   openSetup() {
+      this.showSetup = true;
+  },
+  closeModal() {
+     this.showSetup = false;
+  },
+  submitAndClose() {
+    
+  }
+   }
+   }
+
+  function formatDate(date) {
+  	let dia = date.getDate()
+  	let mes = ["01", "02", "03", "04", "05", "06", "07", "08","09","10","11","12"]
+  	[date.getMonth()]
+  	let ano = date.getFullYear()
+  
+  	return `${dia} / ${mes} / ${ano}`
+}
+ function time(date){
+	
+	let h=date.getHours();
+	let m=date.getMinutes();
+	let s=date.getSeconds();
+	setInterval('time()',500);
+	return `${h}: ${m}: ${s}`
+}
+var getAtime = function() {
+  var date = new Date();
+  var hour = (date.getHours() < 10) ? '0' + date.getHours() : date.getHours();
+  var minute = (date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes();
+  var second = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds();
+  var str_hour = hour + ':' + minute + ':' + second;
+  return str_hour;
+};
+
+   
+</script>
 <style>
 
   @media (max-width: 600px){
 	  .linha-visor>.visor-temp{
 		  font-size: 20px!important;
-		  
-		  
-	  }
-	  .linha-visor>.icone_Temperatura{
-		 width: 5px;
-		 height: 5px;
-		 
-	  }
+	}
+
+
+   .linha-visor>.icone_Temperatura{
+	 width: 5px;
+	 height: 5px; 	 
+	}
   }
 
-body {
-
-
+body
+ {
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -96,8 +169,8 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
-	
-	
+
+
 }
 
 .icone-bolha{
@@ -114,6 +187,13 @@ body {
 .icone_Temperatura{
 	width: 100px;
 	height: 100px;
+}
+.icone-settings{
+	width: 50px;
+	height: 50px;
+	margin-top: -107px;
+	margin-left: 688px;
+	
 }
 .visor-temp{
 	display :flex;
