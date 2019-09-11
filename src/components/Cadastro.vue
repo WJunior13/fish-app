@@ -49,8 +49,9 @@
       </div>
 
       <button class="btn btn-primary" type="submit">Enviar</button>
-       <router-link  to='/home'><button class="btn btn-danger" type="reset">Cancelar</button></router-link>
+       <router-link  to='/hora'><button class="btn btn-danger" type="reset">Cancelar</button></router-link>
     </form>
+    
   </div>
 </template>
 

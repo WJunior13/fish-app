@@ -7,9 +7,11 @@
 						
 						<h1 id="data" class="text-center display-4">{{dateNow | date}}, {{aTime}}</h1>
 						<div>
-						<router-link  to='/setup'>
-						<img src="../assets/settings.svg" alt="imagem" class="icone-settings">
-						</router-link>
+					    
+                         <router-link  to='/init'>
+						<img src="../assets/settings.svg" alt="imagem" class="icone-settings" @click="openSetup">
+                         </router-link>
+					
 						</div>
 						<div class='linha-visor'>							
 							<div id="description" class="">
