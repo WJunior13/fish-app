@@ -17,13 +17,12 @@
         <div>
           <div class="row">
             <div class="time1">
-              <div class="row">
-                Alimentação 1:
-                <swtich v-model="switch1" />
-              </div>
+              <div class="row">Alimentação 1:
+				  <swtich v-model="switch1"/>
+			  </div>
               <time-picker
-                v-model="times"
-                :readonly="isDisabled1"
+	            v-model="times"
+				:readonly="isDisabled1"
                 :show-meridian="false"
                 icon-control-up="glyphicon glyphicon-plus"
                 icon-control-down="glyphicon glyphicon-minus"
@@ -31,14 +30,13 @@
             </div>
 
             <div class="time2">
-              <div class="row">
-                Alimentação 2:
-                <swtich v-model="switch2" />
-              </div>
+              <div class="row">Alimentação 2:
+				  <swtich v-model="switch2"/>
+			  </div>
 
               <time-picker
                 v-model="times"
-                :readonly="isDisabled2"
+				:readonly="isDisabled2"
                 :show-meridian="false"
                 icon-control-up="glyphicon glyphicon-plus"
                 icon-control-down="glyphicon glyphicon-minus"
@@ -47,10 +45,10 @@
           </div>
           <div class="time3">
             <div class="row">Alimentação 3:</div>
-            <swtich v-model="switch3" />
+			<swtich v-model="switch3"/>
             <time-picker
               v-model="times"
-              :readonly="isDisabled3"
+				:readonly="isDisabled"
               :show-meridian="false"
               icon-control-up="glyphicon glyphicon-plus"
               icon-control-down="glyphicon glyphicon-minus"
@@ -158,15 +156,15 @@ export default {
   name: "init",
   data() {
     return {
-      dateNow: new Date(),
-      times: new Date(""),
+	  dateNow: new Date(),
+	  times: new Date(''),
       time: "00:00:00",
-      showSetup: false,
-      valorMax: "",
-      valorMin: "",
-      switch1: false,
-      switch2: false,
-      switch3: false
+	  showSetup: false,
+	  valorMax: '',
+	  valorMin: '',
+	  switch1: false,
+	  switch2: false,
+	  switch3: false,
     };
   },
   filters: {
@@ -180,20 +178,20 @@ export default {
         self.time = getAtime();
       }, 1000);
       return self.time;
-    },
-    isDisabled1: function() {
-      return !this.terms;
-    },
-    isDisabled2: function() {
-      return !this.terms;
-    },
-    isDisabled3: function() {
-      return !this.terms;
+	},
+	isDisabled1: function(){
+    	return !this.terms;
+	},
+	isDisabled2: function(){
+    	return !this.terms;
+	},
+	isDisabled3: function(){
+    	return !this.terms;
     }
   },
   components: {
-    Setup,
-    Swtich
+	Setup,
+	Swtich
   },
   methods: {
     openSetup() {
