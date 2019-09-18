@@ -1,12 +1,14 @@
 <template>
    <div class="switch__container">
-                    <input id="switch-shadow" class="switch switch--shadow" type="checkbox" />
-                    <label for="switch-shadow"></label>
+                    <input :id="_uid" class="switch switch--shadow" :value="value" @input="$emit('input',!value)"  type="checkbox" />
+                    <label :for="_uid"></label>
                 </div>
 </template>
  <script>
  export default {
-     
+    props:[
+      "value"
+    ] 
  }
  </script>
  <style>

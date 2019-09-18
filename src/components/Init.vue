@@ -1,17 +1,24 @@
 <template>
   <div class="container">
     <setup v-if="showSetup">
+      
       <h3 slot="header" class="modal-title">
+        <div class="row">
         Configurar Controlador
+        <div class="close-title">
         <button
           type="button"
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          @click="closeModal"
         >
           <span aria-hidden="true">&times;</span>
         </button>
+        </div>
+        </div>
       </h3>
+      
 
       <div slot="body">
         <div>
@@ -48,7 +55,7 @@
 			<swtich v-model="switch3"/>
             <time-picker
               v-model="times"
-				:readonly="isDisabled"
+				:readonly="isDisabled3"
               :show-meridian="false"
               icon-control-up="glyphicon glyphicon-plus"
               icon-control-down="glyphicon glyphicon-minus"
@@ -91,13 +98,14 @@
       </div>
 
       <div slot="footer">
-        <button type="button" class="btn btn-outline-info" @click="closeModal()">Close</button>
         <button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-outline-success mr-2"
           data-dismiss="modal"
           @click="submitAndClose()"
-        >Submit</button>
+        >Salvar Alterações</button>
+        <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">Cancelar</button>
+        
       </div>
     </setup>
     <div class="row">
@@ -151,6 +159,8 @@
 <script>
 import Setup from "@/components/Setup.vue";
 import Swtich from "@/components/Switch.vue";
+import api from "@/services/api.js";
+
 
 export default {
   name: "init",
@@ -171,6 +181,14 @@ export default {
     date: formatDate,
     hour: time
   },
+   
+  async mounted(){
+    const response = await api.get('configuracao/nserie')
+    response.data
+  },
+  
+
+  
   computed: {
     aTime: function() {
       var self = this;
@@ -180,13 +198,13 @@ export default {
       return self.time;
 	},
 	isDisabled1: function(){
-    	return !this.terms;
+    	return !this.switch1;
 	},
 	isDisabled2: function(){
-    	return !this.terms;
+    	return !this.switch2;
 	},
 	isDisabled3: function(){
-    	return !this.terms;
+    	return !this.switch3;
     }
   },
   components: {
@@ -352,5 +370,8 @@ button {
 }
 .time2 {
   padding-left: 150px;
+}
+.close-title{
+  padding-left: 150px ;
 }
 </style>
