@@ -21,6 +21,7 @@
       
 
       <div slot="body">
+          <h5>Selecione os horarios de Alimentação:</h5>
         <div>
           <div class="row">
             <div class="time1">
@@ -51,8 +52,9 @@
             </div>
           </div>
           <div class="time3">
-            <div class="row">Alimentação 3:</div>
-			<swtich v-model="switch3"/>
+            <div class="row">Alimentação 3:
+			<swtich v-model="switch3"  class="sw3"/>
+      </div>
             <time-picker
               v-model="times"
 				:readonly="isDisabled3"
@@ -60,6 +62,7 @@
               icon-control-up="glyphicon glyphicon-plus"
               icon-control-down="glyphicon glyphicon-minus"
             />
+            
           </div>
         </div>
 
@@ -373,5 +376,8 @@ button {
 }
 .close-title{
   padding-left: 150px ;
+}
+.sw3{
+  padding-right: 360px;
 }
 </style>

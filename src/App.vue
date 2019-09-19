@@ -4,13 +4,12 @@
     <b-navbar toggleable="md" type="dark" class="nav-background">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand href="/home">Home</b-navbar-brand>
-
+       
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-         <router-link class="nav-link" to='/login'>Login</router-link>
-         
-            <router-link class="nav-link" to='/cadastro'>Cadastro</router-link>
-     
+          <router-link class="nav-link" to="/login">Login</router-link>
+
+          <router-link class="nav-link" to="/cadastro">Cadastro</router-link>
         </b-navbar-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
@@ -24,32 +23,54 @@
         </b-navbar-nav>
       </b-collapse>
 
-      <router-link to="/login"></router-link>
+      <router-link v-if="logado" to="/login" v-on:click.native="logout()" replace></router-link>
       <router-link to="/home"></router-link>
       <router-link to="/cadastro"></router-link>
       <router-link to="/init"></router-link>
       <!-- <login/> -->
     </b-navbar>
-    <router-view></router-view>
+    <router-view @logado="autenticar"/>
+    <div v-if="input && input.length">
+    <div v-for="dados of input" v-bind:key="dados.nserie">
+      {{dados.nserie}}
+      {{dados.senha}}
+    </div>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from "axios"
 export default {
   name: "app",
   data() {
     return {
-      form: {
-        Ncontrolador: "",
-        senha: ""
-      },
-      show: true
+      logado: false,
+      input:[],
+      show: true,
+      
     };
   },
   mounted() {
-    this.$router.replace("/home");
+    if (!this.logado) {
+      this.$router.replace("/home");
+    }
+    axios.get("http://localhost:3000/cadastro").then(response => {
+            this.input= response.data
+           
+      
+           
+    })
+    console.log(this.input)
   },
+
   methods: {
+    autenticar(status) {
+      this.logado = status;
+    },
+    logout() {
+      this.logado = false;
+    },
     handleClick() {
       this.showDismissibleAlert = true;
     },
@@ -58,18 +79,6 @@ export default {
       alert(this.$root.teste);
       alert(JSON.stringify(this.form));
     },
-    onReset(evt) {
-      evt.preventDefault();
-      /* Reseta os valores do formulario */
-      this.form.Ncontrolador = "";
-      this.form.senha = "";
-
-      /* Trick to reset/clear native browser form validation state */
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
-    }
   }
 };
 </script>
@@ -81,14 +90,12 @@ body {
   font-family: "Lato", sans-serif !important;
 }
 
-.router-link-active{
+.router-link-active {
   font-weight: bold;
-  color: #fff!important;
+  color: #fff !important;
 }
 .nav-background {
   background: #353535;
-  
-
 }
 </style>
 
