@@ -30,12 +30,8 @@
       <!-- <login/> -->
     </b-navbar>
     <router-view @logado="autenticar"/>
-    <div v-if="input && input.length">
-    <div v-for="dados of input" v-bind:key="dados.nserie">
-      {{dados.nserie}}
-      {{dados.senha}}
-    </div>
-    </div>
+    {{this.input.nserie}}
+    {{this.input.senha}}
   </div>
 </template>
 
@@ -46,7 +42,10 @@ export default {
   data() {
     return {
       logado: false,
-      input:[],
+      input:{
+        nserie:'',
+        senha:''
+      },
       show: true,
       
     };
@@ -56,12 +55,13 @@ export default {
       this.$router.replace("/home");
     }
     axios.get("http://localhost:3000/cadastro").then(response => {
-            this.input= response.data
+            this.dados= response.data
            
       
            
     })
-    console.log(this.input)
+    
+   
   },
 
   methods: {

@@ -1,25 +1,23 @@
-const express = require('express');
-const app = express();
+const express = require('express')
+const bodyParser = require('body-parser')
+const allowCrossDomain = require('./middleware/cross')
 const morgan = require('morgan');
-const cors = require('cors');
-const router = require('./router/routers');
-const bodyParser = require('body-parser');
 
 
-app.use(morgan());
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+const app = express();
+app.use(morgan())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(allowCrossDomain);
+
+app.disable('x-powered-by');
 
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,PATCH,OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-app.use('/', router)
+//app.use(express.static('src/app')) servir conteudo estatico
+
+
+require('./api/routes')(app)
 
 app.listen(3000, () => {
-    console.log('API Running')
+    console.log("API run at port 3000")
 });
