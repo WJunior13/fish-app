@@ -30,22 +30,19 @@
       <!-- <login/> -->
     </b-navbar>
     <router-view @logado="autenticar"/>
-    {{this.input.nserie}}
-    {{this.input.senha}}
   </div>
 </template>
 
 <script>
-import axios from "axios"
+
 export default {
   name: "app",
   data() {
     return {
       logado: false,
-      input:{
-        nserie:'',
-        senha:''
-      },
+      
+        email:'',
+        senha:'' ,
       show: true,
       
     };
@@ -54,12 +51,6 @@ export default {
     if (!this.logado) {
       this.$router.replace("/home");
     }
-    axios.get("http://localhost:3000/cadastro").then(response => {
-            this.dados= response.data
-           
-      
-           
-    })
     
    
   },
@@ -77,7 +68,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       alert(this.$root.teste);
-      alert(JSON.stringify(this.form));
+      alert(JSON.stringify(this));
     },
   }
 };
