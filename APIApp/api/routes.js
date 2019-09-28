@@ -1,7 +1,7 @@
 const authMiddleware = require('../middleware/auth'); // validaçoes do tokem
 
 const controlador = require('./controlador')
-//const device = require('./device')
+const user = require('./user')
 //const userDevices = require('./user-devices')
 
 module.exports = app => {
@@ -10,12 +10,13 @@ module.exports = app => {
         .get(device.saveData)
 */
     app.route('/auth')
-        .post(controlador.auth)
+        .post(user.auth)
+
 
     app.route('/cadastro')
-        .post(controlador.save)
-        //.all(authMiddleware)
-        .get(controlador.findAll)
+        .post(user.save)
+       // .all(authMiddleware)
+        .get(user.findAll)
 /*
 
     app.route('/init')

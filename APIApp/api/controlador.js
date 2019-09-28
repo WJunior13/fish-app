@@ -123,7 +123,7 @@ const save = async (req, res) => {
             return res.status(400).send({ err: 'Controlador já cadastrado' });
         }
 
-        controlador.senha = bcrypt.hashSync(controlador.senha, bcrypt.genSaltSync(10))
+       // controlador.senha = bcrypt.hashSync(controlador.senha, bcrypt.genSaltSync(10))
 
         controladorFromDB = await SQL(`INSERT INTO controlador(
                                             nserie,

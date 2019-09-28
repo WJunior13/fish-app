@@ -20,9 +20,7 @@ const findById = async (req, res) => { //Buscar usuário por id
         const user = await SQL(`SELECT id,
                                        nome,
                                        email,
-                                       telefone,
-                                       data_cadastro dataCadastro,
-                                       data_modificacao dataModificacao
+                                       telefone   
                                   FROM usuarios
                                  WHERE ID = ${id}`)
         if (user)
@@ -40,30 +38,22 @@ const findById = async (req, res) => { //Buscar usuário por id
 const auth = async (req, res) => { //Autenticar Usuário
     try {
 
-        const user = req.body
+        const {email,senha} = req.body
 
-        existsOrError(user.email, "E-mail não Informado", res)
-        existsOrError(user.senha, "Senha não Informada", res)
-        validateEmail(user.email, "E-mail em formato inválido!", res)
-
+        
         const userFromDB = await SQL(`SELECT id,
                                              nome,
                                              email,
                                              senha,
-                                             telefone,
-                                             data_cadastro dataCadastro,
-                                             data_modificacao dataModificacao
+                                             telefone
                                         FROM usuarios
-                                       WHERE email = '${user.email}'`)
+                                       WHERE email = '${email}'
+                                       AND senha='${senha}'`)
         if (!userFromDB)
             return res.status(400).send({ err: "Usuário não cadastrado!" })
 
-        if (bcrypt.compareSync(user.senha, userFromDB.senha)) {
-            userFromDB.senha = undefined
-            return res.status(200).send({ ...userFromDB, token: generateToken({ id: userFromDB.id }) });
-        }
 
-        return res.status(400).send({ err: "Senha inválida!" })
+        return res.status(200).json(userFromDB)
 
     } catch (msg) {
 
@@ -78,9 +68,7 @@ const findAll = async (req, res) => { //Buscar todos os usuarios
         users = await SQL(`SELECT id,
                                   nome,
                                   email,
-                                  telefone,
-                                  data_cadastro dataCadastro,
-                                  data_modificacao dataModificacao
+                                  telefone    
                              FROM usuarios`)
 
         if (users)
@@ -105,16 +93,13 @@ const update = async (req, res) => { //Atualizar usuario
         existsOrError(user.email, "E-mail não informado", res)
         validateEmail(user.email, "E-mail em formato inválido!", res)
         existsOrError(user.telefone, "Telefone não informado", res)
-        existsOrError(user.endereco, "Endereço não informado", res)
         existsOrError(user.senha, "Senha não informado", res)
 
         data = await SQL(`UPDATE usuarios
                              SET nome ='${user.nome}',
                                  email = '${user.email}',
                                  telefone = '${user.telefone}',
-                                 endereco = '${user.endereco}',
-                                 senha = '${user.senha}',
-                                 data_modificacao = NOW()
+                                 senha = '${user.senha}'
                            WHERE id = ${id}`)
 
         if (data.affectedRows)
@@ -137,7 +122,6 @@ const save = async (req, res) => {
         existsOrError(user.email, "E-mail não informado", res)
         validateEmail(user.email, "E-mail em formato inválido!", res)
         existsOrError(user.telefone, "Telefone não informado", res)
-        existsOrError(user.endereco, "Endereço não informado", res)
         existsOrError(user.senha, "Senha não informado", res)
 
         let userFromDB = await SQL(`SELECT email
@@ -149,22 +133,16 @@ const save = async (req, res) => {
             return res.status(400).send({ err: 'Usuário já cadastrado' });
         }
 
-        user.senha = bcrypt.hashSync(user.senha, bcrypt.genSaltSync(10))
-
         userFromDB = await SQL(`INSERT INTO usuarios(
                                             nome,
                                             email,
                                             senha,
-                                            telefone,
-                                            endereco,
-                                            data_cadastro)
+                                            telefone)
                                     VALUES(
                                             '${user.nome}',
                                             '${user.email}',
                                             '${user.senha}',
-                                            '${user.telefone}',
-                                            '${user.endereco}',
-                                            NOW()
+                                            '${user.telefone}'
                                            )`)
 
         if (userFromDB.insertId)

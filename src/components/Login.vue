@@ -1,5 +1,16 @@
 <template>
   <div id="login">
+    <b-navbar toggleable="md" type="dark" class="nav-background">
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+      <b-navbar-brand href="/home">Home</b-navbar-brand>
+       
+      <b-collapse is-nav id="nav_collapse">
+        <b-navbar-nav>
+          <router-link class="nav-link" to="/login">Login</router-link>
+          
+        </b-navbar-nav>
+      </b-collapse>
+ </b-navbar>
     <b-container class="login">
       <b-row align-h="center" class="mt-5">
         <b-col cols="5">
@@ -7,46 +18,48 @@
             <div class="alert alert-danger alert-dismissible fade show" v-if="alerta">
               <button type="button" class="close" data-dismiss="alert" @click="closeAlert()">&times;</button>
               <strong>Atenção!</strong>
-              Número de série ou senha incorretos.
+              Email ou senha incorretos.
             </div>
             <h3 class="mb-4">Login</h3>
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
               <b-form-group
                 id="exampleInputGroup1"
-                label="Nº do Controlador:"
+                label="Email:"
                 label-for="exampleInput1"
               >
                 <b-form-input
                   id="exampleInput1"
-                  type="number"
-                  v-model="form.nserie"
+                  type="email"
+                  v-model="email"
                   required
-                  placeholder="Insira o número do controlador"
+                  placeholder="Insira um email"
                 ></b-form-input>
               </b-form-group>
               <b-form-group id="exampleInputGroup2" label="Senha:" label-for="exampleInput2">
                 <b-form-input
                   id="exampleInput2"
                   type="password"
-                  v-model="form.senha"
+                  v-model="senha"
                   required
                   placeholder="Digite sua senha"
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group id="exampleGroup4">
-                <b-form-checkbox-group v-model="form.checked" id="exampleChecks">
+                <b-form-checkbox-group  id="exampleChecks">
                   <b-form-checkbox value="remember">Lembrar senha</b-form-checkbox>
                 </b-form-checkbox-group>
               </b-form-group>
               <div class="d-flex justify-content-between">
                 <div>
-                  <b-button type="submit" variant="primary" v-on:click="login()">Entrar</b-button>
-
-                  <b-button type="reset" variant="danger">Cancelar</b-button>
+                  <router-link to="/init">
+                  <b-button type="submit" variant="success mr-2" v-on:click="login()">Entrar</b-button>
+                </router-link>
+                  <b-button type="reset" variant="danger mr-2">Cancelar</b-button>
                 </div>
                 <div>
-                  <router-link class="nav-link" to="/cadastro">Cadastrar Controlador</router-link>
+                  Não possui conta?
+                  <router-link class="nav-link" to="/cadastro">Cadastrar-se</router-link>
                  
                 </div>
               </div>
@@ -59,16 +72,16 @@
 </template>
 
 <script>
+import axios from "axios"
 export default {
   name: "login",
   data() {
     return {
-      form: {
-        nserie: "",
-        senha: ""
-      },
       show: true,
       alerta: false,
+      email:'',
+      senha:''
+
     };
   },
   methods: {
@@ -85,8 +98,8 @@ export default {
     onReset(evt) {
       evt.preventDefault();
       /* Reseta os valores do formulario */
-      this.form.nserie = "";
-      this.form.senha = "";
+      this.email = "";
+      this.senha = "";
       this.alerta=false;  
 
       /* Trick to reset/clear native browser form validation state */
@@ -96,17 +109,23 @@ export default {
       });
     },
     login() {
-      if (this.form.nserie != "" && this.form.senha != "") {
+     
+       axios.get("http://localhost:3000/cadastro").then(response => {
+            this.dados= response.data 
+           
+    })
+    
+      if (this.email != "" && this.senha != "") {
         if (
-          this.form.nserie == this.$parent.input.nserie &&
-          this.form.senha == this.$parent.input.senha
+          this.email == this.$email &&
+          this.senha == this.$senha
         ) {
           this.$emit("logado", true);
           this.$router.replace({ name: "init" });
         } else {
-          console.log("Numero de serie ou senha incorretos");
-          this.form.nserie = "";
-          this.form.senha = "";
+          console.log("Email ou senha incorretos");
+          this.email = "";
+          this.senha = "";
            this.alerta=true;
         }
       } else {

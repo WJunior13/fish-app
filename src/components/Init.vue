@@ -1,156 +1,268 @@
 <template>
-  <div class="container">
-    <setup v-if="showSetup">
-      
-      <h3 slot="header" class="modal-title">
-        <div class="row">
-        Configurar Controlador
-        <div class="close-title">
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-          @click="closeModal"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-        </div>
-      </h3>
-      
+  <div>
+    <!-----------------------NavBar---------------------------->
+    <b-navbar toggleable="md" type="dark" class="nav-color">
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+      <b-navbar-brand>Início</b-navbar-brand>
 
-      <div slot="body">
-          <h5>Selecione os horarios de Alimentação:</h5>
-        <div>
+      <b-collapse is-nav id="nav_collapse">
+        <b-navbar-nav>
+          <router-link class="nav-link" to="/login">Controladores</router-link>
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item-dropdown right>
+            
+            <template slot="button-content">
+              <em>Controlador</em>
+            </template>
+            <b-dropdown-item class="nav-link" to="/cadastro">Meus Dados</b-dropdown-item>
+
+            <b-dropdown-item class="nav-link" to="/home">Sair</b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+<!------------------------------------------------------------------------------------------------------>
+    <div class="container" v-if="showInit">
+ <!---------------------------------Modal Setup---------------------------------------------------------->
+      <modal v-if="showSetup">
+        <h3 slot="header" class="modal-title">
           <div class="row">
-            <div class="time1">
-              <div class="row">Alimentação 1:
-				  <swtich v-model="switch1"/>
-			  </div>
-              <time-picker
-	            v-model="times"
-				:readonly="isDisabled1"
-                :show-meridian="false"
-                icon-control-up="glyphicon glyphicon-plus"
-                icon-control-down="glyphicon glyphicon-minus"
-              />
+            Configurar Controlador
+            <div class="close-title">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                @click="closeModal"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+          </div>
+        </h3>
 
-            <div class="time2">
-              <div class="row">Alimentação 2:
-				  <swtich v-model="switch2"/>
-			  </div>
+        <div slot="body">
+          <h5>Selecione os horarios de Alimentação:</h5>
+          <div>
+            <div class="row">
+              <div class="time1">
+                <div class="row">
+                  Alimentação 1:
+                  <swtich v-model="switch1" />
+                </div>
+                <time-picker
+                  v-model="times"
+                  :readonly="isDisabled1"
+                  :show-meridian="false"
+                  icon-control-up="glyphicon glyphicon-plus"
+                  icon-control-down="glyphicon glyphicon-minus"
+                />
+              </div>
 
+              <div class="time2">
+                <div class="row">
+                  Alimentação 2:
+                  <swtich v-model="switch2" />
+                </div>
+
+                <time-picker
+                  v-model="times"
+                  :readonly="isDisabled2"
+                  :show-meridian="false"
+                  icon-control-up="glyphicon glyphicon-plus"
+                  icon-control-down="glyphicon glyphicon-minus"
+                />
+              </div>
+            </div>
+            <div class="time3">
+              <div class="row">
+                Alimentação 3:
+                <swtich v-model="switch3" class="sw3" />
+              </div>
               <time-picker
                 v-model="times"
-				:readonly="isDisabled2"
+                :readonly="isDisabled3"
                 :show-meridian="false"
                 icon-control-up="glyphicon glyphicon-plus"
                 icon-control-down="glyphicon glyphicon-minus"
               />
             </div>
           </div>
-          <div class="time3">
-            <div class="row">Alimentação 3:
-			<swtich v-model="switch3"  class="sw3"/>
-      </div>
-            <time-picker
-              v-model="times"
-				:readonly="isDisabled3"
-              :show-meridian="false"
-              icon-control-up="glyphicon glyphicon-plus"
-              icon-control-down="glyphicon glyphicon-minus"
+
+          <div class="modal-temp">
+            <h5>Selecione o intervalo de temperatura:</h5>
+            <div class="row">
+              <div class="labelMin">
+                <label>Temp.Mínima</label>
+                <h6>{{valorMin}}°C</h6>
+              </div>
+
+              <div class="labelMax">
+                <label>Temp.Máxima</label>
+                <h6>{{valorMax}}°C</h6>
+              </div>
+            </div>
+            <input
+              type="range"
+              min="10"
+              max="20"
+              step="0.1"
+              value="10"
+              oninput="this.parentNode.dataset.lbound=this.value;"
+              v-model="valorMin"
             />
-            
+            <input
+              type="range"
+              min="20"
+              max="30"
+              step="0.1"
+              value="20"
+              oninput="this.parentNode.dataset.ubound=this.value;"
+              v-model="valorMax"
+            />
           </div>
         </div>
 
-        <div class="modal-temp">
-          <h5>Selecione o intervalo de temperatura:</h5>
+        <div slot="footer">
+          <button
+            type="button"
+            class="btn btn-outline-success mr-2"
+            data-dismiss="modal"
+            @click="submitAndClose()"
+          >Salvar Alterações</button>
+          <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">Cancelar</button>
+        </div>
+      </modal>
+  <!------------------------------------------------------------------------------------------------>
+  <!----------------------------------Modal User---------------------------------------------------->
+  <modal v-if="showUser">
+        <h3 slot="header" class="modal-title">
           <div class="row">
-            <div class="labelMin">
-              <label>Temp.Mínima</label>
-              <h6>{{valorMin}}°C</h6>
-            </div>
-
-            <div class="labelMax">
-              <label>Temp.Máxima</label>
-              <h6>{{valorMax}}°C</h6>
+            Atualizar Dados
+            <div class="close-title">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                @click="closeModal"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
           </div>
+        </h3>
+         <div slot="body">
+           <form class="needs-validation" name="f1" @submit="formSubmit">
+        <div class="col-md-4 mb-3">
+          <label for="validationDefault01">Nome</label>
           <input
-            type="range"
-            min="10"
-            max="20"
-            step="0.1"
-            value="10"
-            oninput="this.parentNode.dataset.lbound=this.value;"
-            v-model="valorMin"
-          />
-          <input
-            type="range"
-            min="20"
-            max="30"
-            step="0.1"
-            value="20"
-            oninput="this.parentNode.dataset.ubound=this.value;"
-            v-model="valorMax"
+            type="text"
+            class="form-control"
+            id="validationDefault01"
+            placeholder="Informe um Nome"
+            v-model="nome"
+            required
           />
         </div>
-      </div>
-
-      <div slot="footer">
-        <button
-          type="button"
-          class="btn btn-outline-success mr-2"
-          data-dismiss="modal"
-          @click="submitAndClose()"
-        >Salvar Alterações</button>
-        <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">Cancelar</button>
+        <div class="col-md-4 mb-6">
+          <label for="validationDefaultUsername">Email</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupPrepend2">@</span>
+            </div>
+            <input
+              type="email"
+              class="form-control"
+              id="validationDefaultUsername"
+              placeholder="Email"
+              aria-describedby="inputGroupPrepend2"
+              v-model="email"
+              required
+            />
+          </div>
         
       </div>
-    </setup>
-    <div class="row">
-      <div id class="col-8 mx-auto weather">
-        <div class="visor-data">
-          <h1 id="data" class="text-center display-4">{{dateNow | date}}, {{aTime}}</h1>
-          <div>
-            <router-link to="/init">
-              <img
-                src="../assets/settings.svg"
-                alt="imagem"
-                class="icone-settings"
-                @click="openSetup"
-              />
-            </router-link>
-          </div>
-          <div class="linha-visor">
-            <div id="description" class>
-              <img src="../assets/bubbles.svg" alt="imagem" class="icone-bolha" />
+        <div class="col-md-2 mb-8">
+          <label for="validationDefault03">Telefone</label>
+          <input
+            type="text"
+            class="form-control"
+            id="validationDefault03"
+            placeholder="Telefone"
+            v-model="telefone"
+            required
+          />
+        </div>
+        <div class="col-md-2 mb-5">
+          <label for="validationDefault04">Senha</label>
+          <input
+            type="password"
+            class="form-control"
+            id="validationDefault04"
+            placeholder="Digite uma senha"
+            v-model="criaSenha"
+            required
+          />
+        </div>
+    
+      
+           </form>
+         </div>
+   <div slot="footer">
+          <button
+            type="button"
+            class="btn btn-outline-success mr-2"
+            data-dismiss="modal"
+            @click="submitAndClose()"
+          >Salvar Alterações</button>
+          <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">Cancelar</button>
+        </div>  
+  </modal>
+  <!------------------------------------------------------------------------------------------------>
+      <div class="row">
+        <div id class="col-8 mx-auto weather">
+          <div class="visor-data">
+            <h1 id="data" class="text-center display-4">{{dateNow | date}}, {{aTime}}</h1>
+            <div>
+              <router-link to="/init">
+                <img
+                  src="../assets/settings.svg"
+                  alt="imagem"
+                  class="icone-settings"
+                  @click="openSetup"
+                />
+              </router-link>
             </div>
-
-            <div id="temperatura" class="visor-temp">
-              <img src="../assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
-              <span>22°C</span>
-            </div>
-          </div>
-
-          <div class="weather-body">
-            <div class="row">
-              <div class="tempMax col-4 text-center">
-                <i class="wi wi-raindrop"></i>
-                <span>Temp.Máx</span>
+            <div class="linha-visor">
+              <div id="description" class>
+                <img src="../assets/bubbles.svg" alt="imagem" class="icone-bolha" />
               </div>
-              <div class="tempMin col-4 text-center">
-                <i class="wi wi-strong-wind"></i>
-                <span>Temp.Min</span>
+
+              <div id="temperatura" class="visor-temp">
+                <img src="../assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
+                <span>22°C</span>
               </div>
             </div>
 
-            <div class="row">
-              <div id="tempMax" class="tempMax-data col-4 text-center">28°</div>
-              <div id="tempMin" class="tempMin-data col-4 text-center">21°</div>
+            <div class="weather-body">
+              <div class="row">
+                <div class="tempMax col-4 text-center">
+                  <i class="wi wi-raindrop"></i>
+                  <span>Temp.Máx</span>
+                </div>
+                <div class="tempMin col-4 text-center">
+                  <i class="wi wi-strong-wind"></i>
+                  <span>Temp.Min</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div id="tempMax" class="tempMax-data col-4 text-center">28°</div>
+                <div id="tempMin" class="tempMin-data col-4 text-center">21°</div>
+              </div>
             </div>
           </div>
         </div>
@@ -160,38 +272,37 @@
 </template>
 
 <script>
-import Setup from "@/components/Setup.vue";
+import Modal from "@/components/Modal.vue";
 import Swtich from "@/components/Switch.vue";
 import api from "@/services/api.js";
-
 
 export default {
   name: "init",
   data() {
     return {
-	  dateNow: new Date(),
-	  times: new Date(''),
+      dateNow: new Date(),
+      times: new Date(""),
       time: "00:00:00",
-	  showSetup: false,
-	  valorMax: '',
-	  valorMin: '',
-	  switch1: false,
-	  switch2: false,
-	  switch3: false,
+      showSetup: false,
+      showInit: true,
+      showUser:true,
+      valorMax: "",
+      valorMin: "",
+      switch1: false,
+      switch2: false,
+      switch3: false
     };
   },
   filters: {
     date: formatDate,
     hour: time
   },
-   
-  async mounted(){
-    const response = await api.get('configuracao/nserie')
-    response.data
-  },
-  
 
-  
+  async mounted() {
+    const response = await api.get("configuracao/nserie");
+    response.data;
+  },
+
   computed: {
     aTime: function() {
       var self = this;
@@ -199,20 +310,20 @@ export default {
         self.time = getAtime();
       }, 1000);
       return self.time;
-	},
-	isDisabled1: function(){
-    	return !this.switch1;
-	},
-	isDisabled2: function(){
-    	return !this.switch2;
-	},
-	isDisabled3: function(){
-    	return !this.switch3;
+    },
+    isDisabled1: function() {
+      return !this.switch1;
+    },
+    isDisabled2: function() {
+      return !this.switch2;
+    },
+    isDisabled3: function() {
+      return !this.switch3;
     }
   },
   components: {
-	Setup,
-	Swtich
+    Modal,
+    Swtich
   },
   methods: {
     openSetup() {
@@ -220,6 +331,7 @@ export default {
     },
     closeModal() {
       this.showSetup = false;
+      this.showUser=false;
     },
     submitAndClose() {}
   }
@@ -374,10 +486,14 @@ button {
 .time2 {
   padding-left: 150px;
 }
-.close-title{
-  padding-left: 150px ;
+.close-title {
+  padding-left: 150px;
 }
-.sw3{
+.sw3 {
   padding-right: 360px;
 }
+.nav-color {
+  background:rgb(50, 80, 109);
+}
+
 </style>
