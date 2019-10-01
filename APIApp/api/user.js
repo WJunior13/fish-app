@@ -20,7 +20,8 @@ const findById = async (req, res) => { //Buscar usuário por id
         const user = await SQL(`SELECT id,
                                        nome,
                                        email,
-                                       telefone   
+                                       telefone,
+                                       senha  
                                   FROM usuarios
                                  WHERE ID = ${id}`)
         if (user)
@@ -44,14 +45,14 @@ const auth = async (req, res) => { //Autenticar Usuário
         const userFromDB = await SQL(`SELECT id,
                                              nome,
                                              email,
-                                             senha,
-                                             telefone
+                                             telefone,
+                                             senha
                                         FROM usuarios
                                        WHERE email = '${email}'
                                        AND senha='${senha}'`)
         if (!userFromDB)
             return res.status(400).send({ err: "Usuário não cadastrado!" })
-
+        
 
         return res.status(200).json(userFromDB)
 
@@ -68,7 +69,8 @@ const findAll = async (req, res) => { //Buscar todos os usuarios
         users = await SQL(`SELECT id,
                                   nome,
                                   email,
-                                  telefone    
+                                  telefone,
+                                  senha   
                              FROM usuarios`)
 
         if (users)

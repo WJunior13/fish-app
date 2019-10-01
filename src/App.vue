@@ -5,6 +5,8 @@
       <router-link to="/home"></router-link>
       <router-link to="/cadastro"></router-link>
       <router-link to="/init"></router-link>
+      <router-link to="/controlador"></router-link>
+
    
     <router-view @logado="autenticar"/>
   </div>

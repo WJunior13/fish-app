@@ -7,24 +7,23 @@
 
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <router-link class="nav-link" to="/login">Controladores</router-link>
+          <router-link class="nav-link" to="/controlador">Controladores</router-link>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
-            
             <template slot="button-content">
               <em>Controlador</em>
             </template>
-            <b-dropdown-item class="nav-link" to="/cadastro">Meus Dados</b-dropdown-item>
+            <b-dropdown-item @click="openUser">Meus Dados</b-dropdown-item>
 
             <b-dropdown-item class="nav-link" to="/home">Sair</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-<!------------------------------------------------------------------------------------------------------>
+    <!------------------------------------------------------------------------------------------------------>
     <div class="container" v-if="showInit">
- <!---------------------------------Modal Setup---------------------------------------------------------->
+      <!---------------------------------Modal Setup---------------------------------------------------------->
       <modal v-if="showSetup">
         <h3 slot="header" class="modal-title">
           <div class="row">
@@ -135,93 +134,79 @@
           <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">Cancelar</button>
         </div>
       </modal>
-  <!------------------------------------------------------------------------------------------------>
-  <!----------------------------------Modal User---------------------------------------------------->
-  <modal v-if="showUser">
+      <!------------------------------------------------------------------------------------------------>
+      <!----------------------------------Modal User---------------------------------------------------->
+      <modal v-if="showUser">
         <h3 slot="header" class="modal-title">
-          <div class="row">
-            Atualizar Dados
-            <div class="close-title">
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-                @click="closeModal"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          </div>
+          <div class="row">Atualizar Dados</div>
         </h3>
-         <div slot="body">
-           <form class="needs-validation" name="f1" @submit="formSubmit">
-        <div class="col-md-4 mb-3">
-          <label for="validationDefault01">Nome</label>
-          <input
-            type="text"
-            class="form-control"
-            id="validationDefault01"
-            placeholder="Informe um Nome"
-            v-model="nome"
-            required
-          />
-        </div>
-        <div class="col-md-4 mb-6">
-          <label for="validationDefaultUsername">Email</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupPrepend2">@</span>
+        <div slot="body">
+          <form class="needs-validation" name="f1">
+            <label for="validationDefaultUsername">Nome</label>
+            <div class="input-group mb-3"
+            
+            >
+            
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Usuário"
+                aria-describedby="basic-addon1"
+               
+              />
             </div>
-            <input
-              type="email"
-              class="form-control"
-              id="validationDefaultUsername"
-              placeholder="Email"
-              aria-describedby="inputGroupPrepend2"
-              v-model="email"
-              required
-            />
-          </div>
-        
-      </div>
-        <div class="col-md-2 mb-8">
-          <label for="validationDefault03">Telefone</label>
-          <input
-            type="text"
-            class="form-control"
-            id="validationDefault03"
-            placeholder="Telefone"
-            v-model="telefone"
-            required
-          />
+            <label for="validationDefaultEmail">Email</label>
+            <div class="input-group mb-3">
+              <input
+               
+                class="form-control"
+                aria-describedby="basic-addon1"
+                type="email"
+                placeholder="Email"
+                v-model="email"
+                required
+                
+              />
+            </div>
+            <label for="validationDefaultTelefone">Telefone</label>
+            <div class="input-group mb-3">
+              <input
+                type="tel"
+                class="form-control"
+                placeholder="Telefone"
+                aria-describedby="basic-addon1"
+                v-model="telefone"
+             
+              />
+            </div>
+            <label for="validationDefaultSenha">Senha</label>
+            <div class="input-group mb-3">
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Senha"
+                aria-describedby="basic-addon1"
+                v-model="senha"
+            
+              />
+            </div>
+          </form>
         </div>
-        <div class="col-md-2 mb-5">
-          <label for="validationDefault04">Senha</label>
-          <input
-            type="password"
-            class="form-control"
-            id="validationDefault04"
-            placeholder="Digite uma senha"
-            v-model="criaSenha"
-            required
-          />
-        </div>
-    
-      
-           </form>
-         </div>
-   <div slot="footer">
+        <div slot="footer">
           <button
             type="button"
             class="btn btn-outline-success mr-2"
             data-dismiss="modal"
             @click="submitAndClose()"
           >Salvar Alterações</button>
-          <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">Cancelar</button>
-        </div>  
-  </modal>
-  <!------------------------------------------------------------------------------------------------>
+          <button
+            type="button"
+            class="btn btn-outline-danger mr-2"
+            @click="closeModalUser()"
+          >Cancelar</button>
+        </div>
+      </modal>
+      <!------------------------------------------------------------------------------------------------>
       <div class="row">
         <div id class="col-8 mx-auto weather">
           <div class="visor-data">
@@ -275,22 +260,28 @@
 import Modal from "@/components/Modal.vue";
 import Swtich from "@/components/Switch.vue";
 import api from "@/services/api.js";
+import axios from "axios";
 
 export default {
   name: "init",
   data() {
     return {
+      listagem:[],
       dateNow: new Date(),
       times: new Date(""),
       time: "00:00:00",
       showSetup: false,
       showInit: true,
-      showUser:true,
+      showUser: false,
       valorMax: "",
       valorMin: "",
       switch1: false,
       switch2: false,
-      switch3: false
+      switch3: false,
+      nome: "",
+      email: "",
+      telefone: "",
+      senha: ""
     };
   },
   filters: {
@@ -299,8 +290,9 @@ export default {
   },
 
   async mounted() {
-    const response = await api.get("configuracao/nserie");
-    response.data;
+    const response = await api.get("cadastro");
+   this.listagem=response.data;
+    
   },
 
   computed: {
@@ -329,11 +321,37 @@ export default {
     openSetup() {
       this.showSetup = true;
     },
+    openUser() {
+      this.showUser = true;
+    },
     closeModal() {
       this.showSetup = false;
-      this.showUser=false;
+    },
+    closeModalUser() {
+      this.showUser = false;
     },
     submitAndClose() {}
+  },
+  listaUser(){
+       axios.get("http://localhost:3000/cadastro").then(response => {
+           return this.listagem= response.data 
+           
+    })
+    },
+  async formSubmit(e) {
+    e.preventDefault();
+    try {
+      const usuario = {
+        nome: this.nome,
+        email: this.email,
+        telefone: this.telefone,
+        senha: this.senha
+      };
+      await api.post("cadastro", usuario);
+      console.log("salvo");
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
@@ -493,7 +511,6 @@ button {
   padding-right: 360px;
 }
 .nav-color {
-  background:rgb(50, 80, 109);
+  background: rgb(50, 80, 109);
 }
-
 </style>

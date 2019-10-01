@@ -11,14 +11,20 @@ module.exports = app => {
 */
     app.route('/auth')
         .post(user.auth)
+        
 
 
     app.route('/cadastro')
         .post(user.save)
        // .all(authMiddleware)
         .get(user.findAll)
+       
+        app.route('/controlador')
+        .post(controlador.save)
+       // .all(authMiddleware)
+        .get(controlador.findAll)
+        .put(controlador.update)
 /*
-
     app.route('/init')
         .all(authMiddleware)
         .get(device.findAll)
@@ -28,7 +34,7 @@ module.exports = app => {
         .get(device.lastedData)
         .put(device.setSituation)
 
-    /*app.route('/usuario/controlador/:id')
+    app.route('/usuario/controlador/:id')
         .all(authMiddleware)
         .get(userDevices.myDevices)
         .post(userDevices.save)

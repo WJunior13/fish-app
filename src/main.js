@@ -4,7 +4,7 @@ import Home from './Home.vue'
 import Login from '@/components/Login.vue'
 import Init from '@/components/Init.vue'
 import Cadastro from '@/components/Cadastro.vue'
-
+import Controlador from '@/components/Controlador.vue'
 
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -32,6 +32,7 @@ const router=new Router({
     { path: '/home', name:'home',component: Home },
     { path: '/init', name:'init',component: Init },
     { path: '/cadastro',name:'cadastro',  component: Cadastro },
+    { path: '/controlador',name:'controlador',  component: Controlador },
    
     
   ]
