@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-----------------------NavBar---------------------------->
+    
     <b-navbar toggleable="md" type="dark" class="nav-color">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand>Início</b-navbar-brand>
@@ -21,7 +22,9 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+   
     <!------------------------------------------------------------------------------------------------------>
+     <div class="div-fundo">
     <div class="container" v-if="showInit">
       <!---------------------------------Modal Setup---------------------------------------------------------->
       <modal v-if="showSetup">
@@ -143,29 +146,23 @@
         <div slot="body">
           <form class="needs-validation" name="f1">
             <label for="validationDefaultUsername">Nome</label>
-            <div class="input-group mb-3"
-            
-            >
-            
+            <div class="input-group mb-3">
               <input
                 type="text"
                 class="form-control"
                 placeholder="Usuário"
                 aria-describedby="basic-addon1"
-               
               />
             </div>
             <label for="validationDefaultEmail">Email</label>
             <div class="input-group mb-3">
               <input
-               
                 class="form-control"
                 aria-describedby="basic-addon1"
                 type="email"
                 placeholder="Email"
                 v-model="email"
                 required
-                
               />
             </div>
             <label for="validationDefaultTelefone">Telefone</label>
@@ -176,7 +173,6 @@
                 placeholder="Telefone"
                 aria-describedby="basic-addon1"
                 v-model="telefone"
-             
               />
             </div>
             <label for="validationDefaultSenha">Senha</label>
@@ -187,7 +183,6 @@
                 placeholder="Senha"
                 aria-describedby="basic-addon1"
                 v-model="senha"
-            
               />
             </div>
           </form>
@@ -253,6 +248,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -266,7 +262,6 @@ export default {
   name: "init",
   data() {
     return {
-      listagem:[],
       dateNow: new Date(),
       times: new Date(""),
       time: "00:00:00",
@@ -287,12 +282,6 @@ export default {
   filters: {
     date: formatDate,
     hour: time
-  },
-
-  async mounted() {
-    const response = await api.get("cadastro");
-   this.listagem=response.data;
-    
   },
 
   computed: {
@@ -332,12 +321,11 @@ export default {
     },
     submitAndClose() {}
   },
-  listaUser(){
-       axios.get("http://localhost:3000/cadastro").then(response => {
-           return this.listagem= response.data 
-           
-    })
-    },
+  listaUser() {
+    axios.get("http://localhost:3000/cadastro").then(response => {
+      return (this.listagem = response.data);
+    });
+  },
   async formSubmit(e) {
     e.preventDefault();
     try {
@@ -413,6 +401,16 @@ body {
   color: white;
 }
 
+.div-fundo{
+	position:absolute;
+	top:150;
+	left:0;
+	z-index:11;
+	background-image: url("../assets/img_aquario.png");
+	width:100%;
+	height:100%;
+	filter: alpha(opacity=30);
+}
 /* background color on top of bg image*/
 .hero {
   position: absolute;
@@ -420,7 +418,7 @@ body {
   min-width: 100vw;
   top: 0;
   bottom: 0;
-  background-color: rgba(31, 34, 118, 0.5);
+  background-color: rgb(13, 19, 179);
   z-index: -5;
 }
 

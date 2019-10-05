@@ -1,5 +1,6 @@
 <template>
-  <div id="login">
+
+  <div id="login" class="div-fundo">
     <b-navbar toggleable="md" type="dark" class="nav-background">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand href="/home">Home</b-navbar-brand>
@@ -19,7 +20,12 @@
               <strong>Atenção!</strong>
               Email ou senha incorretos.
             </div>
+            <div class="row">
+              
             <h3 class="mb-4">Login</h3>
+             <img src="../assets/logoHandle.png" width="80%"  class="img">
+             </div>
+        
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
               <b-form-group id="exampleInputGroup1" label="Email:" label-for="exampleInput1">
                 <b-form-input
@@ -45,13 +51,9 @@
                   <b-form-checkbox v-model="checkLembrar">Lembrar senha</b-form-checkbox>
                 </b-form-checkbox-group>
               </b-form-group>
+               <b-button block variant="success mr-2" type="submit" v-on:click="login()">Entrar</b-button>
               <div class="d-flex justify-content-between">
-                <div>
-                  <b-button type="submit" variant="success mr-2" v-on:click="login()">Entrar</b-button>
-
-                  <b-button type="reset" variant="danger mr-2">Cancelar</b-button>
-                </div>
-                <div>
+                <div class="cadastrar">
                   Não possui conta?
                   <router-link class="nav-link" to="/cadastro">Cadastrar-se</router-link>
                 </div>
@@ -150,8 +152,26 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .login {
   border-color: red;
 }
+.cadastrar{
+  padding-top: 20px;
+}
+.img{
+  padding-left: 220px
+  
+}
+.div-fundo{
+	position:absolute;
+	top:150;
+	left:0;
+	z-index:11;
+	background-image: url("../assets/img_aquario.png");
+	width:100%;
+	height:100%;
+	filter: alpha(opacity=30);
+}
+
 </style>
