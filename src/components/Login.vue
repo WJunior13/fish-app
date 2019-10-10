@@ -13,10 +13,10 @@
     </b-navbar>
     <b-container class="login">
       <b-row align-h="center" class="mt-5">
-        <b-col cols="5">
+        <b-col cols="flex">
           <b-card class="p-3">
             <div class="alert alert-danger alert-dismissible fade show" v-if="alerta">
-              <button type="button" class="close" data-dismiss="alert" @click="closeAlert()">&times;</button>
+              <b-button type="button" class="close" data-dismiss="alert" @click="closeAlert()">&times;</b-button>
               <strong>Atenção!</strong>
               Email ou senha incorretos.
             </div>
@@ -153,9 +153,19 @@ export default {
 </script>
 
 <style >
-.login {
-  border-color: red;
+  
+@media (max-width: 600px) {
+  .login{
+  columns: 600px
+  }
+  .img{
+    width: 150%;
+     position: relative
+
+    
+  }
 }
+
 .cadastrar{
   padding-top: 20px;
 }

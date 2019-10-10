@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-----------------------NavBar---------------------------->
-    
+
     <b-navbar toggleable="md" type="dark" class="nav-color">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand>Início</b-navbar-brand>
@@ -22,10 +22,9 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-   
+
     <!------------------------------------------------------------------------------------------------------>
-     <div class="div-fundo">
-    <div class="container" v-if="showInit">
+    <div class="div-fundo">
       <!---------------------------------Modal Setup---------------------------------------------------------->
       <modal v-if="showSetup">
         <h3 slot="header" class="modal-title">
@@ -46,8 +45,9 @@
         </h3>
 
         <div slot="body">
-          <h5>Selecione os horarios de Alimentação:</h5>
-          <div>
+          <div class="food">
+          <h6>Selecione os horarios de Alimentação:</h6>
+          
             <div class="row">
               <div class="time1">
                 <div class="row">
@@ -55,7 +55,7 @@
                   <swtich v-model="switch1" />
                 </div>
                 <time-picker
-                  v-model="times"
+                  v-model="time1"
                   :readonly="isDisabled1"
                   :show-meridian="false"
                   icon-control-up="glyphicon glyphicon-plus"
@@ -70,7 +70,7 @@
                 </div>
 
                 <time-picker
-                  v-model="times"
+                  v-model="time2"
                   :readonly="isDisabled2"
                   :show-meridian="false"
                   icon-control-up="glyphicon glyphicon-plus"
@@ -84,7 +84,7 @@
                 <swtich v-model="switch3" class="sw3" />
               </div>
               <time-picker
-                v-model="times"
+                v-model="time3"
                 :readonly="isDisabled3"
                 :show-meridian="false"
                 icon-control-up="glyphicon glyphicon-plus"
@@ -94,7 +94,7 @@
           </div>
 
           <div class="modal-temp">
-            <h5>Selecione o intervalo de temperatura:</h5>
+            Selecione o intervalo de temperatura:
             <div class="row">
               <div class="labelMin">
                 <label>Temp.Mínima</label>
@@ -202,54 +202,58 @@
         </div>
       </modal>
       <!------------------------------------------------------------------------------------------------>
-      <div class="row">
-        <div id class="col-8 mx-auto weather">
-          <div class="visor-data">
-            <h1 id="data" class="text-center display-4">{{dateNow | date}}, {{aTime}}</h1>
-            <div>
-              <router-link to="/init">
-                <img
-                  src="../assets/settings.svg"
-                  alt="imagem"
-                  class="icone-settings"
-                  @click="openSetup"
-                />
-              </router-link>
-            </div>
-            <div class="linha-visor">
-              <div id="description" class>
-                <img src="../assets/bubbles.svg" alt="imagem" class="icone-bolha" />
+      <div class="container" v-if="showInit">
+      
+          <div id class="col-8 mx-auto weather">
+              <div class="hora">
+                <span>{{dateNow | date}}, {{aTime}}</span>
               </div>
-
-              <div id="temperatura" class="visor-temp">
-                <img src="../assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
-                <span>22°C</span>
+              <div class="linha-setting">
+                <router-link to="/init">
+                  <img
+                    src="../assets/settings.svg"
+                       class="icone-settings"                                                                                                                                                                                                                                                                                
+                    alt="imagem"
+  
+                    
+                    @click="openSetup"
+                  />
+                </router-link>
               </div>
-            </div>
-
-            <div class="weather-body">
-              <div class="row">
-                <div class="tempMax col-4 text-center">
-                  <i class="wi wi-raindrop"></i>
-                  <span>Temp.Máx</span>
+              <div class="linha-visor">
+                <div id="description" class>
+                  <img src="../assets/bubbles.svg" alt="imagem" class="icone-bolha" />
                 </div>
-                <div class="tempMin col-4 text-center">
-                  <i class="wi wi-strong-wind"></i>
-                  <span>Temp.Min</span>
+
+                <div id="temperatura" class="visor-temp">
+                  <img src="../assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
+                  <span>22°C</span>
                 </div>
               </div>
 
-              <div class="row">
-                <div id="tempMax" class="tempMax-data col-4 text-center">28°</div>
-                <div id="tempMin" class="tempMin-data col-4 text-center">21°</div>
+              <div class="weather-body">
+                <div class="row">
+                  <div class="tempMax col-4 text-center">
+                    <i class="wi wi-raindrop"></i>
+                    <span>Temp.Máx</span>
+                  </div>
+                  <div class="tempMin col-4 text-center">
+                    <i class="wi wi-strong-wind"></i>
+                    <span>Temp.Min</span>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div id="tempMax" class="tempMax-data col-4 text-center">{{valorMax}}°C</div>
+                  <div id="tempMin" class="tempMin-data col-4 text-center">{{valorMin}}°C </div>
+                </div>
               </div>
             </div>
-          </div>
+  
         </div>
       </div>
     </div>
-    </div>
-  </div>
+  
 </template>
 
 <script>
@@ -263,13 +267,15 @@ export default {
   data() {
     return {
       dateNow: new Date(),
-      times: new Date(""),
       time: "00:00:00",
       showSetup: false,
       showInit: true,
       showUser: false,
       valorMax: "",
       valorMin: "",
+      time1: new Date(""),
+      time2: new Date(""),
+      time3: new Date(""),
       switch1: false,
       switch2: false,
       switch3: false,
@@ -386,11 +392,48 @@ var getAtime = function() {
   .linha-visor > .visor-temp {
     font-size: 20px !important;
   }
+  .hora {
+    font-size: 20px !important;
+  }
+  .container > .col-8  {
+    width: 270px;
+    height: 440px;
+    padding-top: 50px;
+    padding-right: 280px;
+  }
+  .modal-temp{
+    font-size: 13px !important;
+  }
+  .weather-body >.row>.tempMax ,.tempMin{
+    font-size: 17px !important;
+  }
+  .row> .tempMax-data,.tempMin-data{
+     font-size: 20px !important;
+  }
+  .time2>.row{
+   padding-left: -270px;
+    }
+  .food{
+       font-size: 13px !important;
+  }
+ .modal-title{
+   font-size: 18px !important;
+ }
+ 
+  .linha-setting >.icone-settings {
+   width: 15px;
+   height: 15px;
+ 
+  
+  }
 
   .linha-visor > .icone_Temperatura {
     width: 5px;
     height: 5px;
   }
+}
+.hora {
+  font-size: 60px;
 }
 
 body {
@@ -401,21 +444,21 @@ body {
   color: white;
 }
 
-.div-fundo{
-	position:absolute;
-	top:150;
-	left:0;
-	z-index:11;
-	background-image: url("../assets/img_aquario.png");
-	width:100%;
-	height:100%;
-	filter: alpha(opacity=30);
+.div-fundo {
+  position: absolute;
+  top: 150;
+  left: 0;
+  z-index: 11;
+  background-image: url("../assets/img_aquario.png");
+  width: 100%;
+  height: 100%;
+  filter: alpha(opacity=30);
 }
 /* background color on top of bg image*/
 .hero {
   position: absolute;
-  min-height: 100vh;
-  min-width: 100vw;
+  min-height: 300vh;
+  min-width: 300vw;
   top: 0;
   bottom: 0;
   background-color: rgb(13, 19, 179);
@@ -424,20 +467,21 @@ body {
 
 .weather {
   border: 1px solid white;
-  margin-top: 10rem;
+  margin-top: 5rem;
   background-color: rgba(4, 72, 83, 0.5);
   border-radius: 20px;
   color: white;
 }
 
 .weather-head {
-  height: 50%;
+  height: 100%;
 }
 
 .linha-visor {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  padding-top: 60px;
 }
 
 .icone-bolha {
@@ -456,14 +500,17 @@ body {
   height: 100px;
 }
 .icone-settings {
-  width: 50px;
-  height: 50px;
-  margin-top: -107px;
-  margin-left: 688px;
+  width: 45px;
+  height: 45px;
+  
 }
 .visor-temp {
   display: flex;
   align-items: center;
+}
+.linha-setting {
+  margin-top: -80px;
+  margin-left: 670px;
 }
 
 .visor-temp > span {
