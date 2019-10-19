@@ -46,8 +46,8 @@
 
         <div slot="body">
           <div class="food">
-          <h6>Selecione os horarios de Alimentação:</h6>
-          
+            <h6>Selecione os horarios de Alimentação:</h6>
+
             <div class="row">
               <div class="time1">
                 <div class="row">
@@ -203,65 +203,59 @@
       </modal>
       <!------------------------------------------------------------------------------------------------>
       <div class="container" v-if="showInit">
-      
-          <div id class="col-8 mx-auto weather">
-              <div class="hora">
-                <span>{{dateNow | date}}, {{aTime}}</span>
-              </div>
-              <div class="linha-setting">
-                <router-link to="/init">
-                  <img
-                    src="../assets/settings.svg"
-                       class="icone-settings"                                                                                                                                                                                                                                                                                
-                    alt="imagem"
-  
-                    
-                    @click="openSetup"
-                  />
-                </router-link>
-              </div>
-              <div class="linha-visor">
-                <div id="description" class>
-                  <img src="../assets/bubbles.svg" alt="imagem" class="icone-bolha" />
-                </div>
+        <div id class="col-8 mx-auto weather">
+          <div class="hora">
+            <span>{{dateNow | date}}, {{aTime}}</span>
+          </div>
+          <div class="linha-setting">
+            <router-link to="/init">
+              <img
+                src="../assets/settings.svg"
+                class="icone-settings"
+                alt="imagem"
+                @click="openSetup"
+              />
+            </router-link>
+          </div>
+          <div class="linha-visor">
+            <div id="description" class>
+              <img src="../assets/bubbles.svg" alt="imagem" class="icone-bolha" />
+            </div>
 
-                <div id="temperatura" class="visor-temp">
-                  <img src="../assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
-                  <span>22°C</span>
-                </div>
+            <div id="temperatura" class="visor-temp">
+              <img src="../assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
+              <span>22°C</span>
+            </div>
+          </div>
+
+          <div class="weather-body">
+            <div class="row">
+              <div class="tempMax col-4 text-center">
+                <i class="wi wi-raindrop"></i>
+                <span>Temp.Máx</span>
               </div>
-
-              <div class="weather-body">
-                <div class="row">
-                  <div class="tempMax col-4 text-center">
-                    <i class="wi wi-raindrop"></i>
-                    <span>Temp.Máx</span>
-                  </div>
-                  <div class="tempMin col-4 text-center">
-                    <i class="wi wi-strong-wind"></i>
-                    <span>Temp.Min</span>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div id="tempMax" class="tempMax-data col-4 text-center">{{valorMax}}°C</div>
-                  <div id="tempMin" class="tempMin-data col-4 text-center">{{valorMin}}°C </div>
-                </div>
+              <div class="tempMin col-4 text-center">
+                <i class="wi wi-strong-wind"></i>
+                <span>Temp.Min</span>
               </div>
             </div>
-  
+
+            <div class="row">
+              <div id="tempMax" class="tempMax-data col-4 text-center">{{valorMax}}°C</div>
+              <div id="tempMin" class="tempMin-data col-4 text-center">{{valorMin}}°C</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  
+  </div>
 </template>
 
 <script>
 import Modal from "@/components/Modal.vue";
 import Swtich from "@/components/Switch.vue";
 import api from "@/services/api.js";
-import axios from "axios";
-
+import socket from "@/services/socket";
 export default {
   name: "init",
   data() {
@@ -284,6 +278,17 @@ export default {
       telefone: "",
       senha: ""
     };
+  },
+  mounted() {
+    setInterval(() => {
+      socket.emit("parametros", {
+        dados: "msdklmsdkamdsakmdsak"
+      });
+    }, 1000);
+
+    socket.on("rasp:dados", dados => {
+      console.log("dados vindos do servidor", dados);
+    });
   },
   filters: {
     date: formatDate,
@@ -328,7 +333,7 @@ export default {
     submitAndClose() {}
   },
   listaUser() {
-    axios.get("http://localhost:3000/cadastro").then(response => {
+    api.get("/cadastro").then(response => {
       return (this.listagem = response.data);
     });
   },
@@ -341,7 +346,7 @@ export default {
         telefone: this.telefone,
         senha: this.senha
       };
-      await api.post("cadastro", usuario);
+      await api.post("/cadastro", usuario);
       console.log("salvo");
     } catch (error) {
       console.log(error);
@@ -395,36 +400,36 @@ var getAtime = function() {
   .hora {
     font-size: 20px !important;
   }
-  .container > .col-8  {
+  .container > .col-8 {
     width: 270px;
     height: 440px;
     padding-top: 50px;
     padding-right: 280px;
   }
-  .modal-temp{
+  .modal-temp {
     font-size: 13px !important;
   }
-  .weather-body >.row>.tempMax ,.tempMin{
+  .weather-body > .row > .tempMax,
+  .tempMin {
     font-size: 17px !important;
   }
-  .row> .tempMax-data,.tempMin-data{
-     font-size: 20px !important;
+  .row > .tempMax-data,
+  .tempMin-data {
+    font-size: 20px !important;
   }
-  .time2>.row{
-   padding-left: -270px;
-    }
-  .food{
-       font-size: 13px !important;
+  .time2 > .row {
+    padding-left: -270px;
   }
- .modal-title{
-   font-size: 18px !important;
- }
- 
-  .linha-setting >.icone-settings {
-   width: 15px;
-   height: 15px;
- 
-  
+  .food {
+    font-size: 13px !important;
+  }
+  .modal-title {
+    font-size: 18px !important;
+  }
+
+  .linha-setting > .icone-settings {
+    width: 15px;
+    height: 15px;
   }
 
   .linha-visor > .icone_Temperatura {
@@ -502,7 +507,6 @@ body {
 .icone-settings {
   width: 45px;
   height: 45px;
-  
 }
 .visor-temp {
   display: flex;

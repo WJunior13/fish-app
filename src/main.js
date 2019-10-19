@@ -6,6 +6,7 @@ import Init from '@/components/Init.vue'
 import Cadastro from '@/components/Cadastro.vue'
 import Controlador from '@/components/Controlador.vue'
 
+
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'

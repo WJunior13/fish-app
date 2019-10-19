@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import axios from "axios"
+import api from "@/services/api"
 export default {
   name: "login",
   data() {
@@ -129,24 +129,23 @@ export default {
        localStorage.removeItem("login")
      }
     },
-    login() {
-       
-       axios.post("http://localhost:3000/auth",{email:this.email,senha:this.senha}).then(response => {
-           // this.dados= response.data 
-           console.log(response)
-           this.alerta=false
-           console.log("Email ou senha incorretos");
-          this.email = "";
-          this.senha = "";
-          this.$emit("logado", true);
-          this.$router.replace({ name: "init" });
+    async login() {
+       try {
+         const resposta = await api.post("/auth", {email: this.email, senha: this.senha});
+      if(resposta.data.usuario){
 
-    }).catch(e=>{
-    this.alerta=true
-    }) 
-          
-    
-    
+        this.alerta=false
+         this.email = "";
+         this.senha = "";
+         this.$emit("logado", true);
+       return  this.$router.replace({ name: "init" });
+      }
+
+      console.log('usuario nao cadastrado', resposta.data)   
+       } catch (error) {
+         this.alerta= true
+        console.log(error)
+       }
     }  
   }
 };

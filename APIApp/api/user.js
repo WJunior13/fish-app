@@ -40,8 +40,7 @@ const auth = async (req, res) => { //Autenticar Usuário
     try {
 
         const {email,senha} = req.body
-
-        
+       
         const userFromDB = await SQL(`SELECT id,
                                              nome,
                                              email,
@@ -51,10 +50,10 @@ const auth = async (req, res) => { //Autenticar Usuário
                                        WHERE email = '${email}'
                                        AND senha='${senha}'`)
         if (!userFromDB)
-            return res.status(400).send({ err: "Usuário não cadastrado!" })
+            return res.send({ err: "Usuário não cadastrado!" })
         
 
-        return res.status(200).json(userFromDB)
+        return res.json({usuario:userFromDB})
 
     } catch (msg) {
 

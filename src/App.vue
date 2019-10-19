@@ -13,8 +13,8 @@
 </template>
 
 <script>
-
 export default {
+
   name: "app",
   data() {
     return {
@@ -30,8 +30,6 @@ export default {
     if (!this.logado) {
       this.$router.replace("/home");
     }
-    
-   
   },
 
   methods: {
