@@ -4,7 +4,9 @@
 
     <b-navbar toggleable="md" type="dark" class="nav-color">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-      <b-navbar-brand>Início</b-navbar-brand>
+      <b-navbar-brand>
+        <i class="fas fa-home"></i>
+      </b-navbar-brand>
 
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
@@ -13,11 +15,15 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <template slot="button-content">
-              <em>Controlador</em>
+              <em></em>
             </template>
-            <b-dropdown-item @click="openUser">Meus Dados</b-dropdown-item>
+            <b-dropdown-item @click="openUser">
+              <i class="far fa-user"></i> Meus Dados
+            </b-dropdown-item>
 
-            <b-dropdown-item class="nav-link" to="/home">Sair</b-dropdown-item>
+            <b-dropdown-item class="nav-link" to="/home">
+              <i class="fas fa-sign-out-alt"></i> Sair
+            </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -25,9 +31,94 @@
 
     <!------------------------------------------------------------------------------------------------------>
     <div class="div-fundo">
+      <!---------------------------------------------Modal Temp------------------------------------------>
+  
+      <modal  v-if="showTemp">    
+        <h4 slot="header" class="modal-title">
+          <div class="row">
+                 Temperaturas ideais
+            <div class="cl">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                @click="closeModal"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        </h4 >
+        <div slot="body">
+         
+          <table class="table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Espécie</th>
+                <th scope="col">Faixa de Temperatura</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Espada</td>
+                <td>24 a 28 °C</td>
+              </tr>
+              <tr>
+                <td>Molinésia</td>
+                <td>24 a 28 °C</td>
+              </tr>
+              <tr>
+                <td>Colisa</td>
+                <td>22 a 28 °C</td>
+              </tr>
+              <tr>
+                <td>Tricogaster</td>
+                <td>21 a 28 °C</td>
+              </tr>
+              <tr>
+                <td>Kinguio</td>
+                <td>10 a 26 °C</td>
+              </tr>
+              <tr>
+                <td>Betta</td>
+                <td>24 a 30 °C</td>
+              </tr>
+              <tr>
+                <td>Platy</td>
+                <td>24 a 28 °C</td>
+              </tr>
+              <tr>
+                <td>Guppy</td>
+                <td>24 a 28 °C</td>
+              </tr>
+              <tr>
+                <td>Carpa</td>
+                <td>10 a 30 °C</td>
+              </tr>
+              <tr>
+                <td>Barbos</td>
+                <td>22 a 26 °C</td>
+              </tr>
+              <tr>
+              <td>Paulistinha</td>
+              <td>	20 a 26 °C</td>
+              </tr>
+              <tr>
+              <td>Oscar</td>
+              <td>24 a 28 °C</td>
+              </tr>
+              <tr>
+              <td>Acará Bandeira</td>
+              <td>24 a 28 °C</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </modal>
       <!---------------------------------Modal Setup---------------------------------------------------------->
       <modal v-if="showSetup">
-        <h3 slot="header" class="modal-title">
+        <h4 slot="header" class="modal-title">
           <div class="row">
             Configurar Controlador
             <div class="close-title">
@@ -42,7 +133,7 @@
               </button>
             </div>
           </div>
-        </h3>
+        </h4>
 
         <div slot="body">
           <div class="food">
@@ -58,8 +149,8 @@
                   v-model="time1"
                   :readonly="isDisabled1"
                   :show-meridian="false"
-                  icon-control-up="glyphicon glyphicon-plus"
-                  icon-control-down="glyphicon glyphicon-minus"
+                  icon-control-up="fas fa-plus-circle"
+                  icon-control-down="fas fa-minus-circle"
                 />
               </div>
 
@@ -73,8 +164,8 @@
                   v-model="time2"
                   :readonly="isDisabled2"
                   :show-meridian="false"
-                  icon-control-up="glyphicon glyphicon-plus"
-                  icon-control-down="glyphicon glyphicon-minus"
+                  icon-control-up="fas fa-plus-circle"
+                  icon-control-down="fas fa-minus-circle"
                 />
               </div>
             </div>
@@ -87,14 +178,18 @@
                 v-model="time3"
                 :readonly="isDisabled3"
                 :show-meridian="false"
-                icon-control-up="glyphicon glyphicon-plus"
-                icon-control-down="glyphicon glyphicon-minus"
+                icon-control-up="fas fa-plus-circle"
+                icon-control-down="fas fa-minus-circle"
               />
-            </div>
-          </div>
-
+           
           <div class="modal-temp">
-            Selecione o intervalo de temperatura:
+            <div class="row">
+              Selecione o intervalo de temperatura:
+              <div class="temp-info">
+                <a href>Dúvidas sobre a temperatura?</a>
+              </div>
+            </div>
+
             <div class="row">
               <div class="labelMin">
                 <label>Temp.Mínima</label>
@@ -109,7 +204,7 @@
             <input
               type="range"
               min="10"
-              max="20"
+              max="25"
               step="0.1"
               value="10"
               oninput="this.parentNode.dataset.lbound=this.value;"
@@ -117,14 +212,16 @@
             />
             <input
               type="range"
-              min="20"
-              max="30"
+              min="25"
+              max="35"
               step="0.1"
               value="20"
               oninput="this.parentNode.dataset.ubound=this.value;"
               v-model="valorMax"
             />
           </div>
+        </div>
+        </div>
         </div>
 
         <div slot="footer">
@@ -133,8 +230,13 @@
             class="btn btn-outline-success mr-2"
             data-dismiss="modal"
             @click="submitAndClose()"
-          >Salvar Alterações</button>
-          <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">Cancelar</button>
+          >
+            <i class="far fa-check-circle"></i>
+            Salvar Alterações
+          </button>
+          <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">
+            <i class="far fa-times-circle"></i> Cancelar
+          </button>
         </div>
       </modal>
       <!------------------------------------------------------------------------------------------------>
@@ -193,12 +295,14 @@
             class="btn btn-outline-success mr-2"
             data-dismiss="modal"
             @click="submitAndClose()"
-          >Salvar Alterações</button>
-          <button
-            type="button"
-            class="btn btn-outline-danger mr-2"
-            @click="closeModalUser()"
-          >Cancelar</button>
+          >
+            <i class="far fa-check-circle"></i>
+            Salvar Alterações
+          </button>
+          <button type="button" class="btn btn-outline-danger mr-2" @click="closeModalUser()">
+            <i class="far fa-times-circle"></i>
+            Cancelar
+          </button>
         </div>
       </modal>
       <!------------------------------------------------------------------------------------------------>
@@ -256,8 +360,14 @@ import Modal from "@/components/Modal.vue";
 import Swtich from "@/components/Switch.vue";
 import api from "@/services/api.js";
 import socket from "@/services/socket";
+import EventBus from '@/services/event-bus';
 export default {
-  name: "init",
+  name: "init-app",
+   props:{
+   dadosUser:{
+     type: String
+   }
+  },
   data() {
     return {
       dateNow: new Date(),
@@ -265,6 +375,7 @@ export default {
       showSetup: false,
       showInit: true,
       showUser: false,
+      showTemp: false,
       valorMax: "",
       valorMin: "",
       time1: new Date(""),
@@ -276,18 +387,26 @@ export default {
       nome: "",
       email: "",
       telefone: "",
-      senha: ""
+      senha: "",
+     
     };
   },
+  created (){
+    EventBus.$on('dados-user', (data) => {
+      this.dadosUser = data;
+      console.log(data)
+      });
+  },
   mounted() {
+    
     setInterval(() => {
       socket.emit("parametros", {
-        dados: "msdklmsdkamdsakmdsak"
+        dados: "temp"
       });
     }, 1000);
 
     socket.on("rasp:dados", dados => {
-      console.log("dados vindos do servidor", dados);
+     // console.log("dados vindos do servidor", dados);
     });
   },
   filters: {
@@ -321,11 +440,15 @@ export default {
     openSetup() {
       this.showSetup = true;
     },
+     enviaDados(){
+    
+     },
     openUser() {
       this.showUser = true;
     },
     closeModal() {
       this.showSetup = false;
+      this.showTemp = false;
     },
     closeModalUser() {
       this.showUser = false;
@@ -408,6 +531,7 @@ var getAtime = function() {
   }
   .modal-temp {
     font-size: 13px !important;
+    
   }
   .weather-body > .row > .tempMax,
   .tempMin {
@@ -440,7 +564,9 @@ var getAtime = function() {
 .hora {
   font-size: 60px;
 }
-
+.table{
+  font-size: 12px;
+}
 body {
   background-size: cover;
   background-position: center;
@@ -468,6 +594,9 @@ body {
   bottom: 0;
   background-color: rgb(13, 19, 179);
   z-index: -5;
+}
+.cl{
+  padding-left: 240px;
 }
 
 .weather {
@@ -525,6 +654,10 @@ body {
 #temperatura {
   font-size: 7rem;
 }
+.temp-info {
+  font-size: 12px;
+  padding-left: 55px;
+}
 
 #tempMax,
 #tempMin {
@@ -554,7 +687,7 @@ button {
   padding-left: 150px;
 }
 .close-title {
-  padding-left: 150px;
+  padding-left: 180px;
 }
 .sw3 {
   padding-right: 360px;

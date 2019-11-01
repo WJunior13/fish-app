@@ -1,5 +1,6 @@
 <template>
-  <div id="controlador">
+   <div class="div-fundo">
+       <div id="controlador">
    
      <b-navbar toggleable="md" type="dark" class="nav-background">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -15,6 +16,7 @@
         
       </b-collapse>
  </b-navbar>
+  <h2 class="space">Cadastro de usuário</h2>
     <form class="needs-validation" name="f1" @submit="formSubmit">
       <div class="form-row">
         <div class="col-md-4 mb-3">
@@ -82,8 +84,14 @@
         </div>
       </div>
       <div class="form-group"></div>
-      <button class="btn btn-success" type="submit" @click="$bvToast.show('my-toast')">Enviar</button>
-      <button class="btn btn-danger" type="reset">Cancelar</button>
+      <button class="btn btn-success" type="submit" @click="$bvToast.show('my-toast')">
+        <i class="far fa-check-circle"></i> 
+        Cadastrar</button>
+      <router-link to="home">
+      <button class="btn btn-danger" type="reset">
+        <i class="far fa-times-circle"></i> 
+        Cancelar</button>
+        </router-link>
     </form>
     <b-toast id="my-toast" variant="success" solid>
       <template v-slot:toast-title>
@@ -97,6 +105,8 @@
       Cadastro realizado com sucesso
     </b-toast>
   </div>
+  </div>
+
 </template>
 
 <script>
@@ -175,5 +185,19 @@ form {
 }
 button {
   margin: 0 5px;
+}
+.space{
+
+  padding-left: 8px;
+}
+.div-fundo {
+  position: absolute;
+  top: 150;
+  left: 0;
+  z-index: 11;
+  background-image: url("../assets/img_aquario.png");
+  width: 100%;
+  height: 100%;
+  filter: alpha(opacity=20);
 }
 </style>

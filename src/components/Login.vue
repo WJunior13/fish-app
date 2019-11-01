@@ -51,7 +51,8 @@
                   <b-form-checkbox v-model="checkLembrar">Lembrar senha</b-form-checkbox>
                 </b-form-checkbox-group>
               </b-form-group>
-               <b-button block variant="success mr-2" type="submit" v-on:click="login()">Entrar</b-button>
+               <b-button block variant="success mr-2" type="submit" v-on:click="login()">
+                 <i class="fas fa-sign-in-alt"></i> Entrar</b-button>
               <div class="d-flex justify-content-between">
                 <div class="cadastrar">
                   Não possui conta?
@@ -67,21 +68,32 @@
 </template>
 
 <script>
-import api from "@/services/api"
+import Init from "@/components/Init";
+import api from "@/services/api" 
+import EventBus from '@/services/event-bus';
 export default {
-  name: "login",
+  name: "login-app",
+  props:{
+   dadosUser:{
+     type: String
+   }
+  },
   data() {
     return {
       show: true,
       alerta: false,
       email:'',
       senha:'',
-      checkLembrar:false
-
+      checkLembrar:false,
+     
     };
   },
+  
  
   mounted(){
+    this.dadosUser="ola mundo"
+     EventBus.$emit('dados-user', "ola mundo");
+   
      const login=localStorage.getItem("login")
      if(login){
        const {email,senha,checkLembrar}=JSON.parse(login)
@@ -89,6 +101,7 @@ export default {
        this.senha=senha
        this.checkLembrar=checkLembrar
      }
+    
   },
   watch:{
     checkLembrar(){
@@ -97,6 +110,7 @@ export default {
   },
 
   methods: {
+
     handleClick() {
       this.showDismissibleAlert = true;
     },

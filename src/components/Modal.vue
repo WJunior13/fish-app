@@ -31,5 +31,13 @@
  background-color: rgba(0, 0, 0, .5);
  display: table;
  transition: opacity .3s ease;
+ 
+}
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 427px;
+    overflow-y: auto;
 }
 </style>
