@@ -75,7 +75,7 @@ export default {
   name: "login-app",
   props:{
    dadosUser:{
-     type: String
+     type: [String, Object]
    }
   },
   data() {
@@ -85,14 +85,18 @@ export default {
       email:'',
       senha:'',
       checkLembrar:false,
+      nome:'',
+      telefone:''
      
     };
   },
   
  
   mounted(){
-    this.dadosUser="ola mundo"
-     EventBus.$emit('dados-user', "ola mundo");
+    const dataUser=localStorage.getItem("dados")
+    if(dataUser){
+      this.$root.usuario = JSON.parse(dataUser)
+    }
    
      const login=localStorage.getItem("login")
      if(login){
@@ -107,6 +111,7 @@ export default {
     checkLembrar(){
       this.salvarCredencial()
     }
+    
   },
 
   methods: {
@@ -138,22 +143,34 @@ export default {
      if(this.checkLembrar[0] === true){
        const {email,senha,checkLembrar }=this
       localStorage.setItem("login",JSON.stringify({email,senha,checkLembrar}))
+     
      }else{
        console.log('1mfdkmdk')
        localStorage.removeItem("login")
      }
-    },
+     },
+  
     async login() {
        try {
          const resposta = await api.post("/auth", {email: this.email, senha: this.senha});
-      if(resposta.data.usuario){
+         this.nome=resposta.data.usuario.nome
+         this.telefone=resposta.data.usuario.telefone
+         this.email=resposta.data.usuario.email
+         this.senha=resposta.data.usuario.senha
+      
+        localStorage.setItem("dados",JSON.stringify({nome:this.nome,telefone:this.telefone,email:this.email,senha:this.senha}))
 
+      if(resposta.data.usuario){
         this.alerta=false
          this.email = "";
          this.senha = "";
          this.$emit("logado", true);
        return  this.$router.replace({ name: "init" });
+        
+       
+        
       }
+       
 
       console.log('usuario nao cadastrado', resposta.data)   
        } catch (error) {

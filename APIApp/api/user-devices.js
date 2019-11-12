@@ -3,20 +3,17 @@ const { existsOrError } = require('../util/validate')
 
 
 
-const myDevices = async (req, res) => { //mostra configuraçao associados ao controlador
+const myDevices = async (req, res) => { //mostra controladores associados ao usuario
     try {
-        const nserie = (parseInt(req.params.nserie))
-        existsOrError(nserie, "numero de serie inválido", res)
+        const id = (parseInt(req.params.id))
+        existsOrError(id, "id inválido", res)
 
-        const devices = await SQL(`SELECT  time1, 
-                                           time2,
-                                           time3,
-                                           tempmax,
-                                           tempmin
-                                     FROM configuracao 
-                               INNER JOIN controlador_configuracao 
-                                       ON controlador_configuracao .controlador_nserie = controlador.nserie_controlador 
-                                    WHERE controlador_configuracao.nserie = ${nserie}`)
+        const devices = await SQL(`SELECT numero_serie, 
+                                          descricao
+                                     FROM controlador
+                               INNER JOIN usuario_controlador 
+                                       ON usuario_controlador.controlador_id = controlador.numero_serie 
+                                    WHERE usuario_controlador.usuario_id = ${id}`)
 
         if (devices)
             return res.status(200).send(devices)
@@ -30,25 +27,25 @@ const myDevices = async (req, res) => { //mostra configuraçao associados ao con
     }
 };
 
-const save = async (req, res) => { //ASSOCIA Configuraçao ao controlador
+const save = async (req, res) => { //ASSOCIA Controlador ao usuario
     try {
         const data = req.body;
-        const nserie= (parseInt(req.params.nserie))
+        const id = (parseInt(req.params.id))
 
-        existsOrError(nserie, "Nº de serie inválido", res)
-        existsOrError(data.nserie, "Numero de série não informado", res)
-        existsOrError(data.senha, "Senha não informado", res)
+        existsOrError(id, "id inválido", res)
+        existsOrError(data.numeroSerie, "Numero de série não informado", res)
+        existsOrError(data.descricao, "descricao não informado", res)
 
-        let device = await SQL(`SELECT nserie
+        let device = await SQL(`SELECT id
                                     FROM controlador
-                                   WHERE nserie = ${data.nserie} 
-                                     AND senha = ${data.senha}`)
+                                   WHERE numero_serie = ${data.numeroSerie} 
+                                     AND descricao = ${data.descricao}`)
 
         if (!device)
-            return res.status(400).send({ err: "Numero de série ou senha inválidos!" })
+            return res.status(400).send({ err: "Numero de série ou descricao inválidos!" })
 
         device = await SQL(`SELECT id
-                              FROM controlador_configuracao
+                              FROM usuario_controlador
                              WHERE usuario_id = ${id} 
                                AND controlador_id = ${data.numeroSerie}`)
 
@@ -57,11 +54,9 @@ const save = async (req, res) => { //ASSOCIA Configuraçao ao controlador
 
         device = await SQL(`INSERT INTO usuario_controlador
                                         (usuario_id,
-                                        controlador_id,
-                                        data_cadastro) 
+                                        controlador_id) 
                                  VALUES (${id},
-                                        ${data.numeroSerie},
-                                        NOW())`)
+                                        ${data.numeroSerie}`)
         if (device.affectedRows)
             return res.status(200).end()
 

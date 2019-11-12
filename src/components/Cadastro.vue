@@ -138,11 +138,14 @@ export default {
           telefone:this.telefone,
           senha:this.senha
         };
-        await api.post("cadastro", usuario);
+        await api.post("usuario", usuario);
         console.log("salvo");
+        window.location.replace("http://localhost:8080/login")
+        
       } catch (error) {
         console.log(error);
       }
+      
     },
 
     popToast() {

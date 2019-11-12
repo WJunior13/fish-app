@@ -15,7 +15,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <template slot="button-content">
-              <em></em>
+              <em>Bem-vindo {{$root.usuario.nome}} </em> 
             </template>
             <b-dropdown-item @click="openUser">
               <i class="far fa-user"></i> Meus Dados
@@ -127,13 +127,12 @@
                 class="close"
                 data-dismiss="modal"
                 aria-label="Close"
-                @click="closeModal"
-              >
+                @click="closeModal">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
           </div>
-        </h4>
+        </h4>  
 
         <div slot="body">
           <div class="food">
@@ -186,7 +185,8 @@
             <div class="row">
               Selecione o intervalo de temperatura:
               <div class="temp-info">
-                <a href>Dúvidas sobre a temperatura?</a>
+              <a id="missionclick" class="moreinfo" style="cursor:pointer;" 
+                @click="openTemp()">Dúvidas sobre a temperatura? </a>
               </div>
             </div>
 
@@ -245,8 +245,10 @@
         <h3 slot="header" class="modal-title">
           <div class="row">Atualizar Dados</div>
         </h3>
-        <div slot="body">
+        <div slot="body" >
+         
           <form class="needs-validation" name="f1">
+            
             <label for="validationDefaultUsername">Nome</label>
             <div class="input-group mb-3">
               <input
@@ -254,6 +256,9 @@
                 class="form-control"
                 placeholder="Usuário"
                 aria-describedby="basic-addon1"
+                v-model="nome"
+                
+               
               />
             </div>
             <label for="validationDefaultEmail">Email</label>
@@ -328,7 +333,7 @@
 
             <div id="temperatura" class="visor-temp">
               <img src="../assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
-              <span>22°C</span>
+              <span>21.4°C</span>
             </div>
           </div>
 
@@ -363,11 +368,6 @@ import socket from "@/services/socket";
 import EventBus from '@/services/event-bus';
 export default {
   name: "init-app",
-   props:{
-   dadosUser:{
-     type: String
-   }
-  },
   data() {
     return {
       dateNow: new Date(),
@@ -384,21 +384,21 @@ export default {
       switch1: false,
       switch2: false,
       switch3: false,
-      nome: "",
-      email: "",
-      telefone: "",
-      senha: "",
+      nome:'',
+      email:'',
+      senha:'',
+      telefone:''
+        
+      
      
     };
   },
-  created (){
-    EventBus.$on('dados-user', (data) => {
-      this.dadosUser = data;
-      console.log(data)
-      });
-  },
+
   mounted() {
-    
+     this.nome=this.$root.usuario.nome
+     this.email=this.$root.usuario.email
+     this.senha=this.$root.usuario.senha
+     this.telefone=this.$root.usuario.telefone
     setInterval(() => {
       socket.emit("parametros", {
         dados: "temp"
@@ -440,11 +440,14 @@ export default {
     openSetup() {
       this.showSetup = true;
     },
-     enviaDados(){
-    
-     },
+     
     openUser() {
       this.showUser = true;
+    },
+    openTemp(){
+      
+      this.openTemp=true;
+       
     },
     closeModal() {
       this.showSetup = false;
@@ -453,7 +456,28 @@ export default {
     closeModalUser() {
       this.showUser = false;
     },
-    submitAndClose() {}
+    async submitAndClose(e) {
+      e.preventDefault
+      try{
+        const configuracao={
+          time1:this.time1,
+          time2:this.time2,
+          time3:this.time3,
+          tempMax:this.tempMax,
+          tempMin:this.tempMin
+     };
+        await api.post("usuario/controlador/:id", configuracao);
+        console.log("salvo");
+       
+       localStorage.setItem("config",JSON.stringify({time1:this.time1,time2:this.time2,time3:this.time3,
+                                                    tempMax:this.tempMax,tempMin:this.tempMin}))
+
+        
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
   },
   listaUser() {
     api.get("/cadastro").then(response => {

@@ -13,9 +13,9 @@ function generateToken(params = {}) {
 const findById = async (req, res) => { //Buscar usuário por id
     try {
 
-        const id = (parseInt(req.params.id))
+        const email = req.params.email
 
-        existsOrError(id, "id inválido!", res)
+        existsOrError(email, "email inválido!", res)
 
         const user = await SQL(`SELECT id,
                                        nome,
@@ -23,7 +23,7 @@ const findById = async (req, res) => { //Buscar usuário por id
                                        telefone,
                                        senha  
                                   FROM usuarios
-                                 WHERE ID = ${id}`)
+                                 WHERE email = ${email}`)
         if (user)
             return res.status(200).send(user)
 

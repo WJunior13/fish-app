@@ -1,115 +1,139 @@
-const bcrypt = require('bcrypt');
 const SQL = require('../database/index')
-const authConfig = require('../config/auth.json')
-const jwt = require('jsonwebtoken');
 const { existsOrError } = require('../util/validate')
 
-
-const findById = async (req, res) => { //Buscar controlador por numero de serie
+const findAll = async (req, res) => { //Traz todos os controladores cadastrados
     try {
-
-        const nserie = (parseInt(req.params.nserie))
-
-        existsOrError(nserie, "nº de serie inválido!", res)
-
-        const controlador = await SQL(`SELECT nserie,
-                                              descricao
-                                  FROM controlador
-                                 WHERE nserie = ${nserie}`)
-        if (controlador)
-            return res.status(200).send(controlador)
-
-        return res.status(204).end()
-
-    } catch (msg) {
-
-        return res.status(500).send({ err: "Erro Interno", msg })
-
-    }
-};
-
-const findAll = async (req, res) => { //Buscar todos controladores
-    try {
-
-        controladores = await SQL(`SELECT nserie,
+        const devices = await SQL(`SELECT numero_serie,
                                           descricao
-                                 FROM controlador`)
+                                     FROM controlador`)
 
-        if (controladores)
-            return res.status(200).send(controladores)
+        existsOrError(devices, "Nenhum Controlador cadastrado", res)
 
-        return res.status(204).end()
-
-    } catch (msg) {
-
-        return res.status(500).json({ err: "Erro Interno", msg })
-    }
-};
-
-const update = async (req, res) => { //Atualizar controlador
-    try {
-
-        const nserie = (parseInt(req.params.nserie))
-        const controlador = req.body
-
-        existsOrError(controlador.nserie, "numero de serie não informado", res)
-        existsOrError(controlador.descricao, "descricao não informado", res)
-      
-       
-
-        data = await SQL(`UPDATE controlador
-                             SET
-                                descricao='${controlador.descricao}'
-                           WHERE nserie = ${nserie}`)
-
-        if (data.affectedRows)
-            return res.status(200).end()
-
-        return res.status(400).send({ err: "Não foi possivél atualizar", msg: data.message })
+        return res.status(200).send(devices)
 
     } catch (msg) {
 
-        return res.status(500).json({ err: "Erro Interno", msg })
+        res.status(500).json({ erro: "Erro Inteiro", msg })
 
     }
-};
+}
 
-const save = async (req, res) => {
+const lastedData = async (req, res) => { //Ultimo dado recebido
     try {
-        let controlador = req.body;
+        const nsDevice = parseInt(req.params.id)
+        existsOrError(nsDevice, "id inválido!", res)
 
-        existsOrError(controlador.nserie, "Nº de serie não informado", res)
-        existsOrError(controlador.decricao, "descricao nao informada", res)
-
-        let controladorFromDB = await SQL(`SELECT nserie
-                                        FROM controlador
-                                       WHERE nserie = '${controlador.nserie}'`
-        )
-
-        if (controladorFromDB) {
-            return res.status(400).send({ err: 'Controlador já cadastrado' });
+        const filters = req.query
+        if (filters.limit) {
+            // TRATAMENTO DOS FILTROS
+            return res.send({ err: "filtros nao tratados" })
         }
 
+        const data = await SQL(`SELECT temp_min,
+                                       temp_max,
+                                       time1,
+                                       time2,
+                                       time3  
+                                  FROM NS_${nsDevice} 
+                                 WHERE id = 1`)
 
-        controladorFromDB = await SQL(`INSERT INTO controlador(
-                                            nserie,
-                                            descricao)
-                                    VALUES(
-                                            '${controlador.nserie}',
-                                            '${controlador.descricao}'
-                                           )`)
+        existsOrError(data, "Não foi possivél buscar as infrmaçoes!", res)
 
-        if (controladorFromDB.insertId)
+        return res.status(200).send(data)
+
+    } catch (msg) {
+        res.status(500).json({ err: "Erro Interno", msg })
+    }
+}
+
+const setSituation = async (req, res) => { //Altera situação do device
+    try {
+        const data = req.body;
+
+        existsOrError(data.numeroSerie, "Numero de série não informado!", res)
+        existsOrError(data.descricao, "descricao não informado!", res)
+        
+        const device = await SQL(`UPDATE controlador
+                                     SET descricao = '${data.descricao}' 
+                                   WHERE numero_serie = ${data.numeroSerie}`)
+
+        if (device.affectedRows)
             return res.status(200).end()
 
-        return res.status(203).end()
+        return res.status(400).send({ err: "Não foi possivél atualizar !" })
 
     } catch (msg) {
 
-        return res.status(500).send({ err: 'Erro Interno ', msg });
+        res.status(500).send({ err: "Erro Interno", msg })
 
     }
 };
 
+const saveData = (req, res) => { //salva novo ou atualiza o antigo
+    const controlador = req.params;
+    try {
+        SQL(`SELECT data 
+           FROM ns_${controlador.wifi_ns}
+       ORDER BY data DESC LIMIT 1`)
+            .then(dado => {
+                let data = new Date(dado.data)
+                let dataAtual = new Date
 
-module.exports = { findAll, findById, update, save}
+                if ((data.getMinutes() + 5 <= dataAtual.getMinutes()) || (data.getHours() != dataAtual.getHours())) { // salva novo dado a cada 5 minutos
+                    SQL(`INSERT INTO NS_${controlador.wifi_ns}
+                     VALUES ('',
+                            NOW(), 
+                            ${controlador.temp_max}, 
+                            ${controlador.temp_min}, 
+                            ${controlador.time1},
+                            ${controlador.time2},
+                            ${controlador.time3})`)
+                } // Atualiza id 1, tempo real
+                SQL(`UPDATE NS_${controlador.wifi_ns} 
+                    SET data = NOW(),
+                    ${controlador.temp_max}, 
+                    ${controlador.temp_min}, 
+                    ${controlador.time1},
+                    ${controlador.time2},
+                    ${controlador.time3}
+                  WHERE id = 1`)
+                    .then(data => {
+                        res.status(200).json({ save: "SUCESS" })
+                    })
+                    .catch(err => {
+                        res.status(400).json({ save: err })
+                    })
+            }) // se nao existir a taela cria nova
+            .catch(err => {
+                SQL(`CREATE TABLE IF NOT EXISTS NS_${controlador.wifi_ns} (
+                id int(11) NOT NULL AUTO_INCREMENT,
+                data datetime DEFAULT NOW(),
+               
+            
+                PRIMARY KEY (id)
+              )`) // Cria nova tabela se nao existir no banco(NOVO CONROLADOR)
+                    .then(data => {
+                        SQL(`INSERT INTO ns_${controlador.wifi_ns} 
+                                     (data)
+                         VALUES ('NOW()')`)
+                            .then(
+                                SQL(`INSERT INTO controlador 
+                                                 (numero_serie,
+                                                 descricao)
+                                          VALUES (${controlador.wifi_ns},
+                                                 ${controlador.wifi_senha},
+                                                 'L',
+                                                 NOW())`) // Insere na tabela controladores um NOVO CONROLADOR
+                                    .then(res.status(200).json({ save: "SUCESS", create: `NS_${controlador.wifi_ns}` }))
+                            )
+                    })
+                    .catch(err => {
+                        res.status(400).json({ save: err })
+                    })
+            })
+    } catch (err) {
+        res.send({ err: "erro" })
+    }
+}
+
+module.exports = { findAll, lastedData, saveData, setSituation }

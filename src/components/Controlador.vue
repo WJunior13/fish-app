@@ -43,7 +43,7 @@
       </div>
 
       <div>
-        <table class="table">
+        <table class="table" v-if="showTable">
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
@@ -85,12 +85,15 @@ export default {
     return {
       controladores: [],
       descricao: "",
-      nserie: ""
+      nserie: "",
+      showTable:false
     };
   },
   async mounted() {
+    
     const response = await api.get("controlador");
     this.controladores = response.data;
+    
   },
   methods: {
     async saveController(e) {
@@ -98,7 +101,7 @@ export default {
       try {
         const controlador = {
           descricao: this.descricao,
-          nserie: this.nserie
+          numeroserie: this.nserie
         };
         await api.post("controlador", controlador);
         console.log("salvo");

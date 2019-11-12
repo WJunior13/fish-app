@@ -44,6 +44,7 @@ new Vue({
   
   data: {
     usuario: {
+      email:'',
       nome: '',
     },
     logado: false
