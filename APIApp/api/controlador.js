@@ -68,12 +68,64 @@ const setSituation = async (req, res) => { //Altera situação do device
 
     }
 };
+ const saveConfiguracao= async (req,res)=>{
+         const id= req.params.id
+         try{
+           await SQL(`UPDATE configuracao 
+                 SET temp_max = "${controlador.temp_max}", 
+                 SET tem_min = "${controlador.temp_min}", 
+                 SET time1 = "${controlador.time1}",
+                 SET time2 = "${controlador.time2}",
+                 SET time3 = "${controlador.time3}"
+                 where id = ${id}`)
+         }catch(err){
 
+         }
+ };
+ const save = async (req, res) => {
+    try {
+        let controlador = req.body;
+
+        existsOrError(controlador.descricao, "Descrição não informado", res)
+        existsOrError(controlador.nserie, "nserie não informado", res)
+
+        let controllerFromDB = await SQL(`SELECT numero_serie
+                                        FROM controlador
+                                       WHERE numero_serie = '${controlador.nserie}'`
+        )
+
+        if (controllerFromDB) {
+            return res.status(400).send({ err: 'Controlador já cadastrado' });
+        }
+
+        const {insertId} = await SQL(`INSERT INTO configuracao VALUES(null, "teste", "18", "21", "0","0", "0")`)
+        
+        controllerFromDB = await SQL(`INSERT INTO controlador(
+                                            descricao,
+                                            numero_serie,
+                                            configuracao_id)
+                                    VALUES(
+                                            '${controlador.descricao}',
+                                            '${controlador.nserie}',
+                                            '${insertId}'
+                                           )`)
+
+        if (controllerFromDB.insertId)
+            return res.status(200).end()
+
+        return res.status(203).end()
+
+    } catch (msg) {
+
+        return res.status(500).send({ err: 'Erro Interno ', msg });
+
+    }
+};
 const saveData = (req, res) => { //salva novo ou atualiza o antigo
-    const controlador = req.params;
+    const controlador = req.body;
     try {
         SQL(`SELECT data 
-           FROM ns_${controlador.wifi_ns}
+           FROM ns_${controlador.id}
        ORDER BY data DESC LIMIT 1`)
             .then(dado => {
                 let data = new Date(dado.data)
@@ -136,4 +188,4 @@ const saveData = (req, res) => { //salva novo ou atualiza o antigo
     }
 }
 
-module.exports = { findAll, lastedData, saveData, setSituation }
+module.exports = { findAll, lastedData, saveData, setSituation , save}

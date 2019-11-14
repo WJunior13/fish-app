@@ -15,7 +15,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <template slot="button-content">
-              <em>Bem-vindo {{$root.usuario.nome}} </em> 
+              <em>Olá, {{$root.usuario.nome}} </em> 
             </template>
             <b-dropdown-item @click="openUser">
               <i class="far fa-user"></i> Meus Dados
@@ -463,14 +463,14 @@ export default {
           time1:this.time1,
           time2:this.time2,
           time3:this.time3,
-          tempMax:this.tempMax,
-          tempMin:this.tempMin
+          valorMax:this.valorMax,
+          valorMin:this.valorMin
      };
-        await api.post("usuario/controlador/:id", configuracao);
+        await api.post("/controlador", configuracao);
         console.log("salvo");
        
        localStorage.setItem("config",JSON.stringify({time1:this.time1,time2:this.time2,time3:this.time3,
-                                                    tempMax:this.tempMax,tempMin:this.tempMin}))
+                                                    valorMax:this.valorMax,valorMin:this.valorMin}))
 
         
       } catch (error) {
@@ -479,26 +479,7 @@ export default {
       
     }
   },
-  listaUser() {
-    api.get("/cadastro").then(response => {
-      return (this.listagem = response.data);
-    });
-  },
-  async formSubmit(e) {
-    e.preventDefault();
-    try {
-      const usuario = {
-        nome: this.nome,
-        email: this.email,
-        telefone: this.telefone,
-        senha: this.senha
-      };
-      await api.post("/cadastro", usuario);
-      console.log("salvo");
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
 };
 
 function formatDate(date) {

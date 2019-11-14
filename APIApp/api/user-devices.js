@@ -8,15 +8,28 @@ const myDevices = async (req, res) => { //mostra controladores associados ao usu
         const id = (parseInt(req.params.id))
         existsOrError(id, "id inválido", res)
 
-        const devices = await SQL(`SELECT numero_serie, 
-                                          descricao
-                                     FROM controlador
-                               INNER JOIN usuario_controlador 
-                                       ON usuario_controlador.controlador_id = controlador.numero_serie 
-                                    WHERE usuario_controlador.usuario_id = ${id}`)
+        const devices = await SQL(`
+ select configuracao.temp_min tempMin,
+        configuracao.tem_max temMax,
+        configuracao.time1,
+        configuracao.time2,
+        configuracao.time3,
+        configuracao.id idConfiguracao,
+        controlador.id idControlador,
+        controlador.numero_serie numeroSerie,
+        usuario_controlador.descricao descricaoControlador
+   FROM
+        configuracao,
+        controlador,
+        usuarios,
+        usuario_controlador
+  where configuracao.id = controlador.configuracao_id
+    and usuario_controlador.controlador_id = controlador_id
+    and usuario_controlador.usuario_id = usuarios.id
+    and usuarios.id = ${id}`)
 
         if (devices)
-            return res.status(200).send(devices)
+            return res.status(200).send(Array.isArray(devices)? devices : [devices])
 
         return res.status(400).send({ err: "Nenhum Controlador encontrado" })
 
@@ -38,25 +51,25 @@ const save = async (req, res) => { //ASSOCIA Controlador ao usuario
 
         let device = await SQL(`SELECT id
                                     FROM controlador
-                                   WHERE numero_serie = ${data.numeroSerie} 
-                                     AND descricao = ${data.descricao}`)
+                                   WHERE numero_serie = ${ data.numeroSerie } 
+                                     AND descricao = ${ data.descricao }`)
 
         if (!device)
             return res.status(400).send({ err: "Numero de série ou descricao inválidos!" })
 
         device = await SQL(`SELECT id
                               FROM usuario_controlador
-                             WHERE usuario_id = ${id} 
-                               AND controlador_id = ${data.numeroSerie}`)
+                             WHERE usuario_id = ${ id } 
+                               AND controlador_id = ${ data.numeroSerie }`)
 
         if (device)
             return res.status(400).send({ err: "Controlador já esta cadastrado para este usuário" })
 
         device = await SQL(`INSERT INTO usuario_controlador
-                                        (usuario_id,
-                                        controlador_id) 
-                                 VALUES (${id},
-                                        ${data.numeroSerie}`)
+            (usuario_id,
+                controlador_id) 
+                                 VALUES(${ id },
+                    ${ data.numeroSerie }`)
         if (device.affectedRows)
             return res.status(200).end()
 
@@ -78,8 +91,8 @@ const remove = async (req, res) => { //Deleta associaçao de controlador com usu
         existsOrError(data.numeroSerie, "Numero de série não informado!", res)
 
         const device = await SQL(`DELETE FROM usuario_controlador
-                                   WHERE usuario_id = ${id} 
-                                     AND controlador_id = ${data.numeroSerie}`)
+                                   WHERE usuario_id = ${ id } 
+                                     AND controlador_id = ${ data.numeroSerie }`)
 
         if (device.affectedRows)
             return res.status(200).end()

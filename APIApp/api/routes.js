@@ -29,12 +29,15 @@ module.exports = app => {
         // .all(authMiddleware)
         .get(controlador.lastedData)
         .put(controlador.setSituation)
+        .post(controlador.saveData)
 
     app.route('/controlador')
-      //  .all(authMiddleware)
-    .get(controlador.findAll)
+        //  .all(authMiddleware)
+        .get(controlador.findAll)
+        .post(controlador.save)
+
     app.route('/usuario/controlador/:id')
-        .all(authMiddleware)
+        // .all(authMiddleware)
         .get(userDevices.myDevices)
         .post(userDevices.save)
         .delete(userDevices.remove)

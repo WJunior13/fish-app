@@ -57,8 +57,8 @@
               <th scope="col">
                 <b-form-checkbox></b-form-checkbox>
               </th>
-              <td>{{dados.nserie}}</td>
-              <td>{{dados.descricao}}</td>
+              <td>{{dados.numeroSerie}}</td>
+              <td>{{dados.descricaoControlador}}</td>
               <td>
                 <b-button size="sm" variant="info" class="mr-2">
                   <i class="fas fa-edit"></i>
@@ -86,13 +86,15 @@ export default {
       controladores: [],
       descricao: "",
       nserie: "",
-      showTable:false
+      showTable:true
     };
   },
   async mounted() {
-    
-    const response = await api.get("controlador");
+    const id=this.$root.usuario.id
+    const response = await api.get(`usuario/controlador/${id}`);
     this.controladores = response.data;
+    
+       
     
   },
   methods: {
@@ -101,7 +103,8 @@ export default {
       try {
         const controlador = {
           descricao: this.descricao,
-          numeroserie: this.nserie
+          nserie: this.nserie
+          
         };
         await api.post("controlador", controlador);
         console.log("salvo");

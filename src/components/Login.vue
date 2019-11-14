@@ -82,6 +82,7 @@ export default {
     return {
       show: true,
       alerta: false,
+      id:'',
       email:'',
       senha:'',
       checkLembrar:false,
@@ -153,12 +154,13 @@ export default {
     async login() {
        try {
          const resposta = await api.post("/auth", {email: this.email, senha: this.senha});
+         this.id=resposta.data.usuario.id
          this.nome=resposta.data.usuario.nome
          this.telefone=resposta.data.usuario.telefone
          this.email=resposta.data.usuario.email
          this.senha=resposta.data.usuario.senha
       
-        localStorage.setItem("dados",JSON.stringify({nome:this.nome,telefone:this.telefone,email:this.email,senha:this.senha}))
+        localStorage.setItem("dados",JSON.stringify({id:this.id,nome:this.nome,telefone:this.telefone,email:this.email,senha:this.senha}))
 
       if(resposta.data.usuario){
         this.alerta=false
