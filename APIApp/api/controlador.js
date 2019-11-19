@@ -50,12 +50,13 @@ const setSituation = async (req, res) => { //Altera situação do device
     try {
         const data = req.body;
 
+        existsOrError(data.idControlador, "id não informado!", res)
         existsOrError(data.numeroSerie, "Numero de série não informado!", res)
-        existsOrError(data.descricao, "descricao não informado!", res)
+        existsOrError(data.descricaoControlador, "descricao não informado!", res)
         
         const device = await SQL(`UPDATE controlador
                                      SET descricao = '${data.descricao}' 
-                                   WHERE numero_serie = ${data.numeroSerie}`)
+                                   WHERE id = ${data.idControlador}`)
 
         if (device.affectedRows)
             return res.status(200).end()
@@ -188,4 +189,4 @@ const saveData = (req, res) => { //salva novo ou atualiza o antigo
     }
 }
 
-module.exports = { findAll, lastedData, saveData, setSituation , save}
+module.exports = { findAll, lastedData, saveData, setSituation , save,saveConfiguracao}

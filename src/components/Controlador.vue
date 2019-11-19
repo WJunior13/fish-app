@@ -43,6 +43,7 @@
       </div>
 
       <div>
+        <div class="mensagem" v-if="showMessage">Nenhum Controlador Cadastrado</div>
         <table class="table" v-if="showTable">
           <thead class="thead-light">
             <tr>
@@ -60,7 +61,7 @@
               <td>{{dados.numeroSerie}}</td>
               <td>{{dados.descricaoControlador}}</td>
               <td>
-                <b-button size="sm" variant="info" class="mr-2">
+                <b-button size="sm" variant="info" class="mr-2" v-on:click="editCotroller(dados.idControlador)">
                   <i class="fas fa-edit"></i>
                   Editar
                 </b-button>
@@ -79,6 +80,7 @@
 <script>
 import api from "@/services/api";
 
+
 import axios from "axios";
 export default {
   data() {
@@ -86,14 +88,20 @@ export default {
       controladores: [],
       descricao: "",
       nserie: "",
-      showTable:true
+      showTable:false,
+      showMessage:false
     };
   },
   async mounted() {
     const id=this.$root.usuario.id
     const response = await api.get(`usuario/controlador/${id}`);
     this.controladores = response.data;
-    
+     if(this.controladores.length == 0){
+      this.showMessage=true
+     }else{
+       this.showMessage=false
+       this.showTable=true
+     }
        
     
   },
@@ -111,14 +119,33 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+    async editCotroller(id){
+      await api.put(`controlador/${id}`)
+           this.descricao=response.data.descricao;
+           this.nserie=response.data.nserie;
+        }
+      
   }
+  
 };
 </script>
 <style scoped>
 .form-cadastro {
   padding-left: 30px;
   padding-top: 100px;
+}
+.mensagem{
+ padding-top: 20px; 
+position: relative;
+align-items: center;
+text-align: center;
+font-size: 30px;
+font-style: oblique;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+
+
 }
 .div-fundo {
   position: absolute;

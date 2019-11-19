@@ -117,7 +117,7 @@
         </div>
       </modal>
       <!---------------------------------Modal Setup---------------------------------------------------------->
-      <modal v-if="showSetup">
+      <modal v-if="showSetup" >
         <h4 slot="header" class="modal-title">
           <div class="row">
             Configurar Controlador
@@ -144,10 +144,11 @@
                   Alimentação 1:
                   <swtich v-model="switch1" />
                 </div>
-                <time-picker
+                <time-picker  
                   v-model="time1"
                   :readonly="isDisabled1"
                   :show-meridian="false"
+                  format="HH:mm"
                   icon-control-up="fas fa-plus-circle"
                   icon-control-down="fas fa-minus-circle"
                 />
@@ -158,9 +159,10 @@
                   Alimentação 2:
                   <swtich v-model="switch2" />
                 </div>
-
+          
                 <time-picker
                   v-model="time2"
+                  format="HH:mm"
                   :readonly="isDisabled2"
                   :show-meridian="false"
                   icon-control-up="fas fa-plus-circle"
@@ -175,6 +177,7 @@
               </div>
               <time-picker
                 v-model="time3"
+                format="HH:mm"
                 :readonly="isDisabled3"
                 :show-meridian="false"
                 icon-control-up="fas fa-plus-circle"
@@ -299,7 +302,7 @@
             type="button"
             class="btn btn-outline-success mr-2"
             data-dismiss="modal"
-            @click="submitAndClose()"
+            @click="updateUser()"
           >
             <i class="far fa-check-circle"></i>
             Salvar Alterações
@@ -366,6 +369,7 @@ import Swtich from "@/components/Switch.vue";
 import api from "@/services/api.js";
 import socket from "@/services/socket";
 import EventBus from '@/services/event-bus';
+import { DatePicker } from 'uiv';
 export default {
   name: "init-app",
   data() {
@@ -378,9 +382,10 @@ export default {
       showTemp: false,
       valorMax: "",
       valorMin: "",
-      time1: new Date(""),
-      time2: new Date(""),
-      time3: new Date(""),
+      time1:new Date(),
+      time2:new Date(),
+      time3:new Date(),
+
       switch1: false,
       switch2: false,
       switch3: false,
@@ -456,8 +461,7 @@ export default {
     closeModalUser() {
       this.showUser = false;
     },
-    async submitAndClose(e) {
-      e.preventDefault
+    async submitAndClose() {
       try{
         const configuracao={
           time1:this.time1,
@@ -465,8 +469,11 @@ export default {
           time3:this.time3,
           valorMax:this.valorMax,
           valorMin:this.valorMin
+          
      };
-        await api.post("/controlador", configuracao);
+    
+    
+        await api.put("/controlador", configuracao);
         console.log("salvo");
        
        localStorage.setItem("config",JSON.stringify({time1:this.time1,time2:this.time2,time3:this.time3,
@@ -477,9 +484,27 @@ export default {
         console.log(error);
       }
       
-    }
-  },
+    },
+    async updateUser(){
+      try {
+        const usuario = {
+          nome: this.nome,
+          email:this.email,
+          telefone:this.telefone,
+          senha:this.senha
+        };
+        const id=this.$root.usuario.id
+        await api.put(`usuario/${id}`, usuario);
+        alert("salvo");
+         window.location.replace("http://localhost:8080/login")
+        
+      } catch (error) {
+        console.log(error);
+      }
+     }
 
+  },
+   
 };
 
 function formatDate(date) {
@@ -552,8 +577,9 @@ var getAtime = function() {
   .food {
     font-size: 13px !important;
   }
-  .modal-title {
+  .modal-title{
     font-size: 18px !important;
+    
   }
 
   .linha-setting > .icone-settings {
@@ -600,6 +626,10 @@ body {
   background-color: rgb(13, 19, 179);
   z-index: -5;
 }
+  .modal-title{
+   padding:0 11px !important;
+    
+  }
 .cl{
   padding-left: 240px;
 }
@@ -700,4 +730,28 @@ button {
 .nav-color {
   background: rgb(50, 80, 109);
 }
+
+
+  .corpo-contador {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .corpo-contador button {
+    outline: none;
+    border: none;
+    font-size: 19px;
+    width: 25px;
+    height: 25px;
+    background: none;
+    margin: 4px;
+    cursor: pointer;
+  }
+  .corpo-contador input {
+    width: 45px;
+    height: 30px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+  }
 </style>

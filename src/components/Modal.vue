@@ -40,6 +40,7 @@
     height: 427px;
     overflow-y: auto;
 }
+
 .modal-header{
   padding: 0 11px;
 }
