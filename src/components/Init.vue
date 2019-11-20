@@ -336,7 +336,7 @@
 
             <div id="temperatura" class="visor-temp">
               <img src="../assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
-              <span>21.4°C</span>
+              <span id="tm"></span>
             </div>
           </div>
 
@@ -364,12 +364,14 @@
 </template>
 
 <script>
+
 import Modal from "@/components/Modal.vue";
 import Swtich from "@/components/Switch.vue";
 import api from "@/services/api.js";
 import socket from "@/services/socket";
 import EventBus from '@/services/event-bus';
 import { DatePicker } from 'uiv';
+import io from 'socket.io-client';
 export default {
   name: "init-app",
   data() {
@@ -392,14 +394,15 @@ export default {
       nome:'',
       email:'',
       senha:'',
-      telefone:''
-        
+      telefone:'',
+     
       
      
     };
   },
 
   mounted() {
+    const socket = io('http://172.16.103.7:5000');
      this.nome=this.$root.usuario.nome
      this.email=this.$root.usuario.email
      this.senha=this.$root.usuario.senha
@@ -410,8 +413,9 @@ export default {
       });
     }, 1000);
 
-    socket.on("rasp:dados", dados => {
-     // console.log("dados vindos do servidor", dados);
+    socket.on("temp_data", temp => {
+      console.log("dados vindos do servidor", temp);
+      
     });
   },
   filters: {
