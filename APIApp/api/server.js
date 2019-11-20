@@ -40,6 +40,6 @@ io.on('connection', function(socket){
     socket.broadcast.emit('message', visitas);
   });
 
-http.listen(8181, function(){
+http.listen(process.env.PORT ||8181, function(){
   console.log('Servidor rodando em: http://localhost:8181');
 });
