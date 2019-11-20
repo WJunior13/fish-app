@@ -56,6 +56,6 @@ io.on('connection', function(socket){
   
   require('./api/routes')(app)
   
-  http.listen(8181, function(){
+  http.listen(process.env.PORT || 8181, function(){
     console.log('Servidor rodando em: http://localhost:8181');
   });
