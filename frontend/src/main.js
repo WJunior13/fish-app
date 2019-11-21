@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import * as uiv from 'uiv';
+import evnt from '@/utils/plugins';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -13,18 +14,12 @@ import store from '@/vuex';
 
 Vue.use(uiv);
 Vue.use(BootstrapVue);
+Vue.use(evnt);
 
 Vue.config.productionTip = false;
 
 new Vue({
   store,
   router,
-  data: {
-    usuario: {
-      email: '',
-      nome: '',
-    },
-    logado: false,
-  },
   render: h => h(App),
 }).$mount('#app');

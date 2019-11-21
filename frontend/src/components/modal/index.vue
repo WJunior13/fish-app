@@ -1,11 +1,12 @@
 <template>
-  <transition name="modal">
-    <div class="modal-classe modal modal-mask" style="display: block">
+  <b-modal v-model="show" :title="title" centered>
+    <div v-if="show" class="modal-classe modal modal-mask" style="display: block">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <slot name="header"></slot>
           </div>
+
           <div class="modal-body">
             <slot name="body"></slot>
           </div>
@@ -16,8 +17,33 @@
         </div>
       </div>
     </div>
-  </transition>
+  </b-modal>
 </template>
+
+<script>
+export default {
+  name: 'Modal',
+  props: {
+    id: { type: [String, Number], required: true },
+    title: { type: [String], required: false, default: () => 'Title ?' },
+  },
+  data() {
+    return {
+      show: false,
+    };
+  },
+  created() {
+    this.$evnt.on(`modal:open:${this.id}`, () => {
+      this.show = true;
+      this.$emit('open');
+    });
+  },
+  beforeDestroy() {
+    this.$evnt.off(`modal:close:${this.id}`);
+    this.$emit('close');
+  },
+};
+</script>
 
 <style>
 .modal-classe {

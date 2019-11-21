@@ -61,7 +61,7 @@ export default {
       this.$router.replace('/login');
     },
     showUserModal() {
-      this.$root.$emit('show:modaluser');
+      this.$evnt.emit('modal:close:userprofile');
     },
   },
 };
