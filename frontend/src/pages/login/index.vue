@@ -1,12 +1,6 @@
 <template>
   <div class="conteudo-login">
     <div class="card-login p-1">
-      <div class="alert alert-danger alert-dismissible fade show" v-if="alerta">
-        <b-button type="button" class="close" data-dismiss="alert" @click="alerta = false">&times;</b-button>
-        <strong>Atenção!</strong>
-        Email ou senha incorretos.
-      </div>
-
       <b-card style="width:100%;">
         <div class="box-imagem-logo">
           <img src="@/assets/logoHandle.png" style="190px; height:190px" class="img-logo" />
@@ -66,7 +60,6 @@ export default {
   data() {
     return {
       show: true,
-      alerta: false,
       checkLembrar: false,
       email: '',
       senha: '',
@@ -123,8 +116,6 @@ export default {
           okColor: 'c-danger',
           okText: 'Fechar',
         });
-
-        this.alerta = true;
       }
     },
   },
