@@ -1,6 +1,6 @@
 <template>
   <transition name="modal">
-    <div class="modal modal-mask" style="display: block">
+    <div class="modal-classe modal modal-mask" style="display: block">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -20,6 +20,11 @@
 </template>
 
 <style>
+.modal-classe {
+  position: absolute;
+  z-index: 99999;
+  margin: auto auto;
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -38,7 +43,6 @@
   height: 427px;
   overflow-y: auto;
 }
-
 .modal-header {
   padding: 0 11px;
 }
