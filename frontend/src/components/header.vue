@@ -69,7 +69,7 @@ export default {
 
 <style lang="scss" scoped>
 .nav-fixed {
-  z-index: 9999;
+  z-index: 99;
   background: #353535;
   position: fixed;
   top: 0;

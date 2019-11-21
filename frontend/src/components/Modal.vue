@@ -22,12 +22,12 @@
 <style>
 .modal-classe {
   position: absolute;
-  z-index: 99999;
+  z-index: 100;
   margin: auto auto;
 }
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 101;
   top: 0;
   left: 0;
   width: 100%;

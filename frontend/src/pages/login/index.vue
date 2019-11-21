@@ -24,6 +24,7 @@
               placeholder="Insira um email"
             ></b-form-input>
           </b-form-group>
+
           <b-form-group id="exampleInputGroup2" label="Senha:" label-for="exampleInput2">
             <b-form-input
               id="exampleInput2"
@@ -39,10 +40,12 @@
               <b-form-checkbox style="color:#333" v-model="checkLembrar">Lembrar senha</b-form-checkbox>
             </b-form-checkbox-group>
           </b-form-group>
+
           <b-button block variant="success" type="submit" @click="login()">
             <i class="fas fa-sign-in-alt"></i>
             Entrar
           </b-button>
+
           <div class="d-flex justify-content-between">
             <span style="color:#333;" class="mt-1">
               Não possui conta?
@@ -57,6 +60,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import notify from '@/components/notify';
 // import api from '@/services/api';
 
 export default {
@@ -114,6 +118,13 @@ export default {
         this.$router.replace({ name: 'monitoring' });
       } catch (error) {
         this.setLogado(false);
+
+        notify.error({
+          title: 'Atenção',
+          content: 'Dados e-mail ou senha inválidos.',
+          okColor: 'c-danger',
+          okText: 'Fechar',
+        });
 
         this.alerta = true;
       }
