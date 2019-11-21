@@ -4,15 +4,17 @@
 
     <div class="card-login p-1">
       <div class="alert alert-danger alert-dismissible fade show" v-if="alerta">
-        <b-button type="button" class="close" data-dismiss="alert" @click="closeAlert()">&times;</b-button>
+        <b-button type="button" class="close" data-dismiss="alert" @click="alerta = false">&times;</b-button>
         <strong>Atenção!</strong>
         Email ou senha incorretos.
       </div>
 
       <b-card style="width:100%;">
-        <img src="@/assets/logoHandle.png" style="190px; height:190px" class="img-logo" />
+        <div class="box-imagem-logo">
+          <img src="@/assets/logoHandle.png" style="190px; height:190px" class="img-logo" />
+        </div>
 
-        <b-form @submit="onSubmit" @reset="onReset" style="width:100%" v-if="show">
+        <b-form @submit.prevent="" style="width:100%" v-if="show">
           <b-form-group id="exampleInputGroup1" label="Email:" label-for="exampleInput1">
             <b-form-input
               id="exampleInput1"
@@ -54,114 +56,66 @@
 </template>
 
 <script>
-import api from '@/services/api';
+import { mapMutations } from 'vuex';
+// import api from '@/services/api';
 
 export default {
   name: 'LoginApp',
-  props: {
-    dadosUser: {
-      type: [String, Object],
-    },
-  },
   data() {
     return {
       show: true,
       alerta: false,
-      id: '',
+      checkLembrar: false,
       email: '',
       senha: '',
-      checkLembrar: false,
-      nome: '',
-      telefone: '',
     };
   },
   watch: {
     checkLembrar() {
-      this.salvarCredencial();
+      this.salvarCredenciais();
     },
   },
-
   mounted() {
-    const dataUser = localStorage.getItem('dados');
-    if (dataUser) {
-      this.$root.usuario = JSON.parse(dataUser);
-    }
-
     const login = localStorage.getItem('login');
     if (login) {
       const { email, senha, checkLembrar } = JSON.parse(login);
+      this.checkLembrar = checkLembrar;
       this.email = email;
       this.senha = senha;
-      this.checkLembrar = checkLembrar;
     }
   },
-
   methods: {
-    handleClick() {
-      this.showDismissibleAlert = true;
-    },
-    onSubmit(evt) {
-      evt.preventDefault();
-      this.$root.logado = true;
-    },
-    closeAlert() {
-      this.alerta = false;
-    },
-    onReset(evt) {
-      evt.preventDefault();
-      /* Reseta os valores do formulario */
-      this.email = '';
-      this.senha = '';
-      this.alerta = false;
-
-      /* Trick to reset/clear native browser form validation state */
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
-    },
-    salvarCredencial() {
+    ...mapMutations('sessao', ['setUsuario', 'setLogado']),
+    salvarCredenciais() {
       if (this.checkLembrar[0] === true) {
         const { email, senha, checkLembrar } = this;
         localStorage.setItem('login', JSON.stringify({ email, senha, checkLembrar }));
       } else {
-        console.log('1mfdkmdk');
         localStorage.removeItem('login');
       }
     },
-
     async login() {
       try {
-        const resposta = await api.post('/auth', { email: this.email, senha: this.senha });
-        this.id = resposta.data.usuario.id;
-        this.nome = resposta.data.usuario.nome;
-        this.telefone = resposta.data.usuario.telefone;
-        this.email = resposta.data.usuario.email;
-        this.senha = resposta.data.usuario.senha;
+        // const { email, senha } = this;
+        // const { data } = await api.post('/auth', { email, senha });
 
-        localStorage.setItem(
-          'dados',
-          JSON.stringify({
-            id: this.id,
-            nome: this.nome,
-            telefone: this.telefone,
-            email: this.email,
-            senha: this.senha,
-          })
-        );
+        const usuario = {
+          id: 5,
+          email: 'jonasvargaski@hotmail.com',
+          senha: 'msmsd',
+          nome: 'Jonas Vargaski',
+          telefone: '99905651',
+        };
 
-        if (resposta.data.usuario) {
-          this.alerta = false;
-          this.email = '';
-          this.senha = '';
-          this.$emit('logado', true);
-          return this.$router.replace({ name: 'init' });
-        }
+        // this.setUsuario(data);
+        this.setUsuario(usuario);
+        this.setLogado(true);
 
-        console.log('usuario nao cadastrado', resposta.data);
+        this.$router.replace({ name: 'monitoring' });
       } catch (error) {
+        this.setLogado(false);
+
         this.alerta = true;
-        console.log(error);
       }
     },
   },
@@ -183,10 +137,17 @@ export default {
   justify-content: center;
   width: 100%;
   height: 100%;
+
+  .box-imagem-logo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .card-login {
-  max-width: 650px;
+  max-width: 580px;
   width: 100vw;
   display: flex;
   flex-direction: column;
