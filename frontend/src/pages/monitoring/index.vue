@@ -1,244 +1,238 @@
 <template>
   <div>
     <UserModal />
-    <div class="div-fundo">
-      <!---------------------------------------------Modal Temp------------------------------------------>
-
-      <modal v-if="showTemp">
-        <h4 slot="header" class="modal-title">
-          <div class="row">
-            Temperaturas ideais
-            <div class="cl">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+    <!---------------------------------------------Modal Temp------------------------------------------>
+    <modal v-if="showTemp">
+      <h4 slot="header" class="modal-title">
+        <div class="row">
+          Temperaturas ideais
+          <div class="cl">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-        </h4>
-        <div slot="body">
-          <table class="table">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Espécie</th>
-                <th scope="col">Faixa de Temperatura</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Espada</td>
-                <td>24 a 28 °C</td>
-              </tr>
-              <tr>
-                <td>Molinésia</td>
-                <td>24 a 28 °C</td>
-              </tr>
-              <tr>
-                <td>Colisa</td>
-                <td>22 a 28 °C</td>
-              </tr>
-              <tr>
-                <td>Tricogaster</td>
-                <td>21 a 28 °C</td>
-              </tr>
-              <tr>
-                <td>Kinguio</td>
-                <td>10 a 26 °C</td>
-              </tr>
-              <tr>
-                <td>Betta</td>
-                <td>24 a 30 °C</td>
-              </tr>
-              <tr>
-                <td>Platy</td>
-                <td>24 a 28 °C</td>
-              </tr>
-              <tr>
-                <td>Guppy</td>
-                <td>24 a 28 °C</td>
-              </tr>
-              <tr>
-                <td>Carpa</td>
-                <td>10 a 30 °C</td>
-              </tr>
-              <tr>
-                <td>Barbos</td>
-                <td>22 a 26 °C</td>
-              </tr>
-              <tr>
-                <td>Paulistinha</td>
-                <td>20 a 26 °C</td>
-              </tr>
-              <tr>
-                <td>Oscar</td>
-                <td>24 a 28 °C</td>
-              </tr>
-              <tr>
-                <td>Acará Bandeira</td>
-                <td>24 a 28 °C</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
-      </modal>
-      <!---------------------------------Modal Setup---------------------------------------------------------->
-      <modal v-if="showSetup">
-        <h4 slot="header" class="modal-title">
-          <div class="row">
-            Configurar Controlador
-            <div class="close-title">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+      </h4>
+      <div slot="body">
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Espécie</th>
+              <th scope="col">Faixa de Temperatura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Espada</td>
+              <td>24 a 28 °C</td>
+            </tr>
+            <tr>
+              <td>Molinésia</td>
+              <td>24 a 28 °C</td>
+            </tr>
+            <tr>
+              <td>Colisa</td>
+              <td>22 a 28 °C</td>
+            </tr>
+            <tr>
+              <td>Tricogaster</td>
+              <td>21 a 28 °C</td>
+            </tr>
+            <tr>
+              <td>Kinguio</td>
+              <td>10 a 26 °C</td>
+            </tr>
+            <tr>
+              <td>Betta</td>
+              <td>24 a 30 °C</td>
+            </tr>
+            <tr>
+              <td>Platy</td>
+              <td>24 a 28 °C</td>
+            </tr>
+            <tr>
+              <td>Guppy</td>
+              <td>24 a 28 °C</td>
+            </tr>
+            <tr>
+              <td>Carpa</td>
+              <td>10 a 30 °C</td>
+            </tr>
+            <tr>
+              <td>Barbos</td>
+              <td>22 a 26 °C</td>
+            </tr>
+            <tr>
+              <td>Paulistinha</td>
+              <td>20 a 26 °C</td>
+            </tr>
+            <tr>
+              <td>Oscar</td>
+              <td>24 a 28 °C</td>
+            </tr>
+            <tr>
+              <td>Acará Bandeira</td>
+              <td>24 a 28 °C</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </modal>
+    <!---------------------------------Modal Setup---------------------------------------------------------->
+    <modal v-if="showSetup">
+      <h4 slot="header" class="modal-title">
+        <div class="row">
+          Configurar Controlador
+          <div class="close-title">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-        </h4>
+        </div>
+      </h4>
 
-        <div slot="body">
-          <div class="food">
-            <h6>Selecione os horarios de Alimentação:</h6>
+      <div slot="body">
+        <div class="food">
+          <h6>Selecione os horarios de Alimentação:</h6>
 
-            <div class="row">
-              <div class="time1">
-                <div class="row">
-                  Alimentação 1:
-                  <swtich v-model="switch1" />
-                </div>
-                <time-picker
-                  v-model="time1"
-                  :readonly="isDisabled1"
-                  :show-meridian="false"
-                  format="HH:mm"
-                  icon-control-up="fas fa-plus-circle"
-                  icon-control-down="fas fa-minus-circle"
-                />
-              </div>
-
-              <div class="time2">
-                <div class="row">
-                  Alimentação 2:
-                  <swtich v-model="switch2" />
-                </div>
-
-                <time-picker
-                  v-model="time2"
-                  format="HH:mm"
-                  :readonly="isDisabled2"
-                  :show-meridian="false"
-                  icon-control-up="fas fa-plus-circle"
-                  icon-control-down="fas fa-minus-circle"
-                />
-              </div>
-            </div>
-            <div class="time3">
+          <div class="row">
+            <div class="time1">
               <div class="row">
-                Alimentação 3:
-                <swtich v-model="switch3" class="sw3" />
+                Alimentação 1:
+                <swtich v-model="switch1" />
               </div>
               <time-picker
-                v-model="time3"
+                v-model="time1"
+                :readonly="isDisabled1"
+                :show-meridian="false"
                 format="HH:mm"
-                :readonly="isDisabled3"
+                icon-control-up="fas fa-plus-circle"
+                icon-control-down="fas fa-minus-circle"
+              />
+            </div>
+
+            <div class="time2">
+              <div class="row">
+                Alimentação 2:
+                <swtich v-model="switch2" />
+              </div>
+
+              <time-picker
+                v-model="time2"
+                format="HH:mm"
+                :readonly="isDisabled2"
                 :show-meridian="false"
                 icon-control-up="fas fa-plus-circle"
                 icon-control-down="fas fa-minus-circle"
               />
+            </div>
+          </div>
+          <div class="time3">
+            <div class="row">
+              Alimentação 3:
+              <swtich v-model="switch3" class="sw3" />
+            </div>
+            <time-picker
+              v-model="time3"
+              format="HH:mm"
+              :readonly="isDisabled3"
+              :show-meridian="false"
+              icon-control-up="fas fa-plus-circle"
+              icon-control-down="fas fa-minus-circle"
+            />
 
-              <div class="modal-temp">
-                <div class="row">
-                  Selecione o intervalo de temperatura:
-                  <div class="temp-info">
-                    <a id="missionclick" class="moreinfo" style="cursor:pointer;" @click="openTemp()">
-                      Dúvidas sobre a temperatura?
-                    </a>
-                  </div>
+            <div class="modal-temp">
+              <div class="row">
+                Selecione o intervalo de temperatura:
+                <div class="temp-info">
+                  <a id="missionclick" class="moreinfo" style="cursor:pointer;" @click="openTemp()">
+                    Dúvidas sobre a temperatura?
+                  </a>
                 </div>
-
-                <div class="row">
-                  <div class="labelMin">
-                    <label>Temp.Mínima</label>
-                    <h6>{{ valorMin }}°C</h6>
-                  </div>
-
-                  <div class="labelMax">
-                    <label>Temp.Máxima</label>
-                    <h6>{{ valorMax }}°C</h6>
-                  </div>
-                </div>
-                <input
-                  type="range"
-                  min="10"
-                  max="25"
-                  step="0.1"
-                  value="10"
-                  oninput="this.parentNode.dataset.lbound=this.value;"
-                  v-model="valorMin"
-                />
-                <input
-                  type="range"
-                  min="25"
-                  max="35"
-                  step="0.1"
-                  value="20"
-                  oninput="this.parentNode.dataset.ubound=this.value;"
-                  v-model="valorMax"
-                />
               </div>
+
+              <div class="row">
+                <div class="labelMin">
+                  <label>Temp.Mínima</label>
+                  <h6>{{ valorMin }}°C</h6>
+                </div>
+
+                <div class="labelMax">
+                  <label>Temp.Máxima</label>
+                  <h6>{{ valorMax }}°C</h6>
+                </div>
+              </div>
+              <input
+                type="range"
+                min="10"
+                max="25"
+                step="0.1"
+                value="10"
+                oninput="this.parentNode.dataset.lbound=this.value;"
+                v-model="valorMin"
+              />
+              <input
+                type="range"
+                min="25"
+                max="35"
+                step="0.1"
+                value="20"
+                oninput="this.parentNode.dataset.ubound=this.value;"
+                v-model="valorMax"
+              />
             </div>
           </div>
         </div>
+      </div>
 
-        <div slot="footer">
-          <button type="button" class="btn btn-outline-success mr-2" data-dismiss="modal" @click="submitAndClose()">
-            <i class="far fa-check-circle"></i>
-            Salvar Alterações
-          </button>
-          <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">
-            <i class="far fa-times-circle"></i>
-            Cancelar
-          </button>
+      <div slot="footer">
+        <button type="button" class="btn btn-outline-success mr-2" data-dismiss="modal" @click="submitAndClose()">
+          <i class="far fa-check-circle"></i>
+          Salvar Alterações
+        </button>
+        <button type="button" class="btn btn-outline-danger mr-2" @click="closeModal()">
+          <i class="far fa-times-circle"></i>
+          Cancelar
+        </button>
+      </div>
+    </modal>
+
+    <div class="container box-monitoring" v-if="showInit">
+      <div id class="col-8 mx-auto weather">
+        <div class="hora">
+          <span>{{ dateTimeFormatted }}</span>
         </div>
-      </modal>
-      <!------------------------------------------------------------------------------------------------>
-      <!----------------------------------Modal User---------------------------------------------------->
-
-      <!------------------------------------------------------------------------------------------------>
-      <div class="container" v-if="showInit">
-        <div id class="col-8 mx-auto weather">
-          <div class="hora">
-            <span>{{ dateNow | date }}, {{ aTime }}</span>
-          </div>
-          <div class="linha-setting">
-            <router-link to="/init">
-              <img src="@/assets/settings.svg" class="icone-settings" alt="imagem" @click="openSetup" />
-            </router-link>
-          </div>
-          <div class="linha-visor">
-            <div id="description" class>
-              <img src="@/assets/bubbles.svg" alt="imagem" class="icone-bolha" />
-            </div>
-
-            <div id="temperatura" class="visor-temp">
-              <img src="@/assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
-              <span>21.4°C</span>
-            </div>
+        <div class="linha-setting">
+          <router-link to="/init">
+            <img src="@/assets/settings.svg" class="icone-settings" alt="imagem" @click="openSetup" />
+          </router-link>
+        </div>
+        <div class="linha-visor">
+          <div id="description" class>
+            <img src="@/assets/bubbles.svg" alt="imagem" class="icone-bolha" />
           </div>
 
-          <div class="weather-body">
-            <div class="row">
-              <div class="tempMax col-4 text-center">
-                <i class="wi wi-raindrop"></i>
-                <span>Temp.Máx</span>
-              </div>
-              <div class="tempMin col-4 text-center">
-                <i class="wi wi-strong-wind"></i>
-                <span>Temp.Min</span>
-              </div>
-            </div>
+          <div id="temperatura" class="visor-temp">
+            <img src="@/assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
+            <span>21.4°C</span>
+          </div>
+        </div>
 
-            <div class="row">
-              <div id="tempMax" class="tempMax-data col-4 text-center">{{ valorMax }}°C</div>
-              <div id="tempMin" class="tempMin-data col-4 text-center">{{ valorMin }}°C</div>
+        <div class="weather-body">
+          <div class="row">
+            <div class="tempMax col-4 text-center">
+              <i class="wi wi-raindrop"></i>
+              <span>Temp.Máx</span>
             </div>
+            <div class="tempMin col-4 text-center">
+              <i class="wi wi-strong-wind"></i>
+              <span>Temp.Min</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div id="tempMax" class="tempMax-data col-4 text-center">{{ valorMax }}°C</div>
+            <div id="tempMin" class="tempMin-data col-4 text-center">{{ valorMin }}°C</div>
           </div>
         </div>
       </div>
@@ -247,20 +241,14 @@
 </template>
 
 <script>
-import { DatePicker } from 'uiv';
-import Modal from '@/components/Modal.vue';
+import { format } from 'date-fns';
+import UserModal from '@/components/UserModal';
+import Modal from '@/components/modal';
 import Swtich from '@/components/Switch.vue';
 import api from '@/services/api.js';
-import socket from '@/services/socket';
-import EventBus from '@/services/event-bus';
-import UserModal from '@/components/UserModal';
 
 export default {
   name: 'InitApp',
-  filters: {
-    date: formatDate,
-    hour: time,
-  },
   components: {
     Modal,
     Swtich,
@@ -268,11 +256,9 @@ export default {
   },
   data() {
     return {
-      dateNow: new Date(),
-      time: '00:00:00',
+      dateTimeFormatted: '',
       showSetup: false,
       showInit: true,
-      showUser: false,
       showTemp: false,
       valorMax: '',
       valorMin: '',
@@ -291,13 +277,6 @@ export default {
   },
 
   computed: {
-    aTime() {
-      const self = this;
-      setInterval(function() {
-        self.time = getAtime();
-      }, 1000);
-      return self.time;
-    },
     isDisabled1() {
       return !this.switch1;
     },
@@ -308,13 +287,15 @@ export default {
       return !this.switch3;
     },
   },
+  mounted() {
+    this.getDateFormated();
+  },
   methods: {
-    openSetup() {
-      this.showSetup = true;
-    },
-
-    openUser() {
-      this.showUser = true;
+    getDateFormated() {
+      this.dateTimeFormatted = format(new Date(), 'dd/MM/yyyy hh:mm:ss');
+      setTimeout(() => {
+        this.getDateFormated();
+      }, 1000);
     },
     openTemp() {
       this.openTemp = true;
@@ -353,49 +334,14 @@ export default {
         console.log(error);
       }
     },
-    async updateUser() {
-      try {
-        const usuario = {
-          nome: this.nome,
-          email: this.email,
-          telefone: this.telefone,
-          senha: this.senha,
-        };
-        const { id } = this.$root.usuario;
-        await api.put(`usuario/${id}`, usuario);
-        alert('salvo');
-        window.location.replace('http://localhost:8080/login');
-      } catch (error) {
-        console.log(error);
-      }
-    },
   },
 };
-
-function formatDate(date) {
-  const dia = date.getDate();
-  const mes = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'][date.getMonth()];
-  const ano = date.getFullYear();
-
-  return `${dia} / ${mes} / ${ano}`;
-}
-function time(date) {
-  const h = date.getHours();
-  const m = date.getMinutes();
-  const s = date.getSeconds();
-  setInterval('time()', 500);
-  return `${h}: ${m}: ${s}`;
-}
-var getAtime = function() {
-  const date = new Date();
-  const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-  const minute = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-  const second = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
-  const str_hour = `${hour}:${minute}:${second}`;
-  return str_hour;
-};
 </script>
-<style>
+<style lang="scss">
+.box-monitoring {
+  color: #fff !important;
+}
+
 @media (max-width: 600px) {
   .linha-visor > .visor-temp {
     font-size: 20px !important;
@@ -446,37 +392,7 @@ var getAtime = function() {
 .table {
   font-size: 12px;
 }
-body {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 auto;
-  color: white;
-}
 
-.div-fundo {
-  position: absolute;
-  top: 150;
-  left: 0;
-  z-index: 11;
-  background-image: url('../../assets/img_aquario.png');
-  width: 100%;
-  height: 100%;
-  filter: alpha(opacity=30);
-}
-/* background color on top of bg image*/
-.hero {
-  position: absolute;
-  min-height: 300vh;
-  min-width: 300vw;
-  top: 0;
-  bottom: 0;
-  background-color: rgb(13, 19, 179);
-  z-index: -5;
-}
-.modal-title {
-  padding: 0 11px !important;
-}
 .cl {
   padding-left: 240px;
 }
@@ -486,7 +402,6 @@ body {
   margin-top: 5rem;
   background-color: rgba(4, 72, 83, 0.5);
   border-radius: 20px;
-  color: white;
 }
 
 .weather-head {
@@ -536,6 +451,7 @@ body {
 #temperatura {
   font-size: 7rem;
 }
+
 .temp-info {
   font-size: 12px;
   padding-left: 55px;

@@ -1,7 +1,5 @@
 <template>
   <div class="conteudo-login">
-    <div class="imagem-fundo-login" />
-
     <div class="card-login p-1">
       <div class="alert alert-danger alert-dismissible fade show" v-if="alerta">
         <b-button type="button" class="close" data-dismiss="alert" @click="alerta = false">&times;</b-button>
@@ -134,14 +132,6 @@ export default {
 </script>
 
 <style lang="scss">
-.imagem-fundo-login {
-  background-image: url('../../assets/img_aquario.png');
-  background-size: cover;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-}
-
 .conteudo-login {
   display: flex;
   align-items: center;

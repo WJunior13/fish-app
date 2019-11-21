@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import * as uiv from 'uiv';
-import evnt from '@/utils/plugins';
+import evnt from '@/plugins/events';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.css';

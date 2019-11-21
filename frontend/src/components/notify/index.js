@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import Confirm from './Confirm';
+import Notify from './Notify.vue';
 
 export default {
-  Component: Vue.extend(Confirm),
+  Component: Vue.extend(Notify),
 
   confirm(props) {
     return this.mount({ ...props, type: 'confirm' });

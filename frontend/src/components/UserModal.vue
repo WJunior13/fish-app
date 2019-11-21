@@ -1,62 +1,58 @@
 <template>
-  <modal @open="loadFields()" title="Perfil do Usuário" id="userprofile">
-    <h3 slot="header" class="modal-title">
-      <div class="row">Atualizar Dados</div>
-    </h3>
+  <modal @open="loadFields()" size="lg" title="Perfil do Usuário" id="userprofile">
+    <form class="needs-validation" name="f1">
+      <label for="validationDefaultUsername">Nome</label>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Usuário"
+          aria-describedby="basic-addon1"
+          v-model="formUser.nome"
+        />
+      </div>
 
-    <div slot="body">
-      <form class="needs-validation" name="f1">
-        <label for="validationDefaultUsername">Nome</label>
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Usuário"
-            aria-describedby="basic-addon1"
-            v-model="formUser.nome"
-          />
-        </div>
+      <label for="validationDefaultEmail">Email</label>
 
-        <label for="validationDefaultEmail">Email</label>
+      <div class="input-group mb-3">
+        <input
+          class="form-control"
+          aria-describedby="basic-addon1"
+          type="email"
+          placeholder="Email"
+          v-model="formUser.email"
+          required
+        />
+      </div>
 
-        <div class="input-group mb-3">
-          <input
-            class="form-control"
-            aria-describedby="basic-addon1"
-            type="email"
-            placeholder="Email"
-            v-model="formUser.email"
-            required
-          />
-        </div>
+      <label for="validationDefaultTelefone">Telefone</label>
 
-        <label for="validationDefaultTelefone">Telefone</label>
+      <div class="input-group mb-3">
+        <input
+          type="tel"
+          class="form-control"
+          placeholder="Telefone"
+          aria-describedby="basic-addon1"
+          v-model="formUser.telefone"
+        />
+      </div>
 
-        <div class="input-group mb-3">
-          <input
-            type="tel"
-            class="form-control"
-            placeholder="Telefone"
-            aria-describedby="basic-addon1"
-            v-model="formUser.telefone"
-          />
-        </div>
+      <label for="validationDefaultSenha">Senha</label>
 
-        <label for="validationDefaultSenha">Senha</label>
+      <div class="input-group mb-3">
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Senha"
+          aria-describedby="basic-addon1"
+          v-model="formUser.senha"
+        />
+      </div>
+    </form>
 
-        <div class="input-group mb-3">
-          <input
-            type="password"
-            class="form-control"
-            placeholder="Senha"
-            aria-describedby="basic-addon1"
-            v-model="formUser.senha"
-          />
-        </div>
-      </form>
-    </div>
+    <hr color="#ccc" />
 
-    <div slot="footer">
+    <div class="alinhar-direita">
       <button type="button" class="btn btn-outline-success mr-2" data-dismiss="modal" @click="updateUser(formUser)">
         <i class="far fa-check-circle"></i>
         Salvar Alterações
@@ -117,7 +113,7 @@ export default {
     },
     closeModalUser() {
       this.limparCampos();
-      this.$evnt.emit('modal:close:userprofile');
+      this.$evnt.emit('modal:userprofile', false);
     },
     limparCampos() {
       this.formUser = {
@@ -132,4 +128,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.alinhar-direita {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+</style>

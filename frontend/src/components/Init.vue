@@ -550,14 +550,6 @@ var getAtime = function() {
 .table {
   font-size: 12px;
 }
-body {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0 auto;
-  color: white;
-}
-
 .div-fundo {
   position: absolute;
   top: 150;
@@ -590,7 +582,6 @@ body {
   margin-top: 5rem;
   background-color: rgba(4, 72, 83, 0.5);
   border-radius: 20px;
-  color: white;
 }
 
 .weather-head {
