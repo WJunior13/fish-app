@@ -70,6 +70,7 @@
 
 <script>
 import api from '@/services/api';
+import notify from '@/components/notify';
 
 export default {
   name: 'Cadastro',
@@ -95,7 +96,12 @@ export default {
 
         this.$router.replace('/login');
       } catch (error) {
-        console.log(error);
+        notify.error({
+          title: 'Erro de Cadastro',
+          content: 'Favor conferir os dados.',
+          okColor: 'c-danger',
+          okText: 'Fechar',
+        });
       }
     },
     close() {
