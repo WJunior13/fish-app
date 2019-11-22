@@ -3,9 +3,10 @@ export default function SocketPlugin(socket) {
     socket.on('data:device', data => {
       store.commit('controlador/setDataDevice', data);
     });
+
     store.subscribe(({ type, payload }) => {
-      if (type === 'updateDataDevice') {
-        socket.emit('update:data:device', payload);
+      if (type === 'setConfig') {
+        socket.emit('update:config:device', payload);
       }
     });
   };

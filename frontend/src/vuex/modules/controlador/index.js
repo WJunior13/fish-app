@@ -1,12 +1,15 @@
 /* eslint-disable no-shadow */
 const state = {
   controlador: {
-    temp: 21.8,
-    tempMin: 18,
-    tempMax: 22,
-    time1: 0,
-    time2: 0,
-    time3: 0,
+    temp: 0,
+    tempMin: 0,
+    tempMax: 0,
+    time1: null,
+    time2: null,
+    time3: null,
+    enableTime1: false,
+    enableTime2: false,
+    enableTime3: false,
   },
 };
 
@@ -17,6 +20,12 @@ const actions = {};
 const mutations = {
   setDataDevice(vuexState, payload) {
     vuexState.controlador = payload;
+  },
+  setConfig(vuexState, payload) {
+    const tempBackup = vuexState.controlador.temp;
+
+    vuexState.controlador = payload;
+    vuexState.controlador.temp = tempBackup;
   },
 };
 

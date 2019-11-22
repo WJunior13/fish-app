@@ -1,6 +1,6 @@
 <template>
   <b-modal v-model="show" :size="size" :title="title" centered hide-footer>
-    <slot />
+    <slot v-if="show" />
   </b-modal>
 </template>
 
