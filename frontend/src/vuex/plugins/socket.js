@@ -1,7 +1,7 @@
 export default function SocketPlugin(socket) {
   return store => {
     socket.on('data:device', data => {
-      store.commit('setDataDevice', data);
+      store.commit('controlador/setDataDevice', data);
     });
     store.subscribe(({ type, payload }) => {
       if (type === 'updateDataDevice') {

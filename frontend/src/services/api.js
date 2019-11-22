@@ -1,6 +1,15 @@
 import axios from 'axios';
+import store from '@/vuex';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8181',
+  baseURL: 'https://back-end-fishapp.herokuapp.com',
 });
+
+api.interceptors.request.use(config => {
+  const { id } = store.state.sessao.usuario;
+  config.headers.idUsuario = id;
+
+  return config;
+});
+
 export default api;

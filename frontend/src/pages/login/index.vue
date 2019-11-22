@@ -53,7 +53,7 @@
 <script>
 import { mapMutations } from 'vuex';
 import notify from '@/components/notify';
-// import api from '@/services/api';
+import api from '@/services/api';
 
 export default {
   name: 'LoginApp',
@@ -91,19 +91,12 @@ export default {
     },
     async login() {
       try {
-        // const { email, senha } = this;
-        // const { data } = await api.post('/auth', { email, senha });
+        const { email, senha } = this;
+        const { data } = await api.post('/auth', { email, senha });
 
-        const usuario = {
-          id: 5,
-          email: 'jonasvargaski@hotmail.com',
-          senha: 'msmsd',
-          nome: 'Jonas Vargaski',
-          telefone: '99905651',
-        };
+        api.defaults.headers.idUsuario = data.usuario.id;
 
-        // this.setUsuario(data);
-        this.setUsuario(usuario);
+        this.setUsuario(data.usuario);
         this.setLogado(true);
 
         this.$router.replace({ name: 'monitoring' });
@@ -112,7 +105,7 @@ export default {
 
         notify.error({
           title: 'Atenção',
-          content: 'Dados e-mail ou senha inválidos.',
+          content: 'E-mail ou senha inválidos.',
           okColor: 'c-danger',
           okText: 'Fechar',
         });

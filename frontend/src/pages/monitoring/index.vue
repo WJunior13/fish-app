@@ -204,7 +204,7 @@
         </div>
         <div class="linha-setting">
           <router-link to="/monitoring">
-            <Setting class="icone-settings" alt="imagem" @click="openSetup"/>
+            <Setting class="icone-settings" alt="imagem" @click="openSetup" />
           </router-link>
         </div>
         <div class="linha-visor">
@@ -213,9 +213,8 @@
           </div>
 
           <div id="temperatura" class="visor-temp">
-           
             <TempIcon class="icone_Temperatura" />
-            <span>21.4°C</span>
+            <span>{{ controlador.temp }} °C</span>
           </div>
         </div>
 
@@ -227,13 +226,14 @@
             </div>
             <div class="tempMin col-4 text-center">
               <i class="wi wi-strong-wind"></i>
+
               <span>Temp.Min</span>
             </div>
           </div>
 
           <div class="row">
-            <div id="tempMax" class="tempMax-data col-4 text-center">{{ valorMax }}°C</div>
-            <div id="tempMin" class="tempMin-data col-4 text-center">{{ valorMin }}°C</div>
+            <div id="tempMax" class="tempMax-data col-4 text-center">{{ controlador.tempMax }}°C</div>
+            <div id="tempMin" class="tempMin-data col-4 text-center">{{ controlador.tempMin }}°C</div>
           </div>
         </div>
       </div>
@@ -242,14 +242,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { format } from 'date-fns';
 import UserModal from '@/components/UserModal';
 import Modal from '@/components/modal';
 import Swtich from '@/components/Switch.vue';
 import api from '@/services/api.js';
-import TempIcon from "@/assets/temperature.svg"
-import Setting from "@/assets/settings.svg"
-import Bublee from "@/assets/bubbles.svg"
+import TempIcon from '@/assets/temperature.svg';
+import Setting from '@/assets/settings.svg';
+import Bublee from '@/assets/bubbles.svg';
 
 export default {
   name: 'InitApp',
@@ -267,8 +268,7 @@ export default {
       showSetup: false,
       showInit: true,
       showTemp: false,
-      valorMax: '',
-      valorMin: '',
+
       time1: new Date(),
       time2: new Date(),
       time3: new Date(),
@@ -276,14 +276,10 @@ export default {
       switch1: false,
       switch2: false,
       switch3: false,
-      nome: '',
-      email: '',
-      senha: '',
-      telefone: '',
     };
   },
-
   computed: {
+    ...mapState('controlador', ['controlador']),
     isDisabled1() {
       return !this.switch1;
     },

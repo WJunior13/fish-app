@@ -99,7 +99,7 @@ export default {
     ...mapMutations('sessao', ['setUsuario']),
     async updateUser(usuario) {
       try {
-        await api.put('/user', usuario);
+        await api.put(`/usuario`, usuario);
 
         this.setUsuario(usuario);
         this.closeModalUser();
