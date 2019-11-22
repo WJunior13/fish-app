@@ -1,5 +1,6 @@
 /* eslint-disable no-shadow */
 const state = {
+  controladores: [],
   controlador: {
     temp: 0,
     tempMin: 0,
@@ -26,6 +27,9 @@ const mutations = {
 
     vuexState.controlador = payload;
     vuexState.controlador.temp = tempBackup;
+  },
+  setControladores(vuexState, payload) {
+    vuexState.controladores = payload;
   },
 };
 

@@ -15,7 +15,7 @@
           <router-link class="nav-link" to="/monitoring">Monitoramento</router-link>
         </b-navbar-nav>
         <b-navbar-nav>
-          <router-link class="nav-link" to="/devices">Controladores</router-link>
+          <router-link class="nav-link" to="/controller">Controladores</router-link>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>

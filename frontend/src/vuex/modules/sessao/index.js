@@ -9,7 +9,6 @@ const state = {
     nome: '',
     telefone: '',
   },
-  controladores: [],
 };
 
 const getters = {};
@@ -34,9 +33,6 @@ const mutations = {
   },
   setUsuario(vuexState, payload) {
     vuexState.usuario = payload;
-  },
-  setControladores(vuexState, payload) {
-    vuexState.controladores = payload;
   },
 };
 

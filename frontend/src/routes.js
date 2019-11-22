@@ -7,7 +7,7 @@ import Home from '@/pages/home';
 import Login from '@/pages/login';
 import Monitoring from '@/pages/monitoring';
 import Cadastro from '@/pages/register';
-// import Controlador from '@/pages/register';
+import Controlador from '@/pages/controller';
 
 Vue.use(Router);
 
@@ -16,7 +16,7 @@ const routes = [
   { path: '/home', name: 'home', component: Home, meta: { private: false } },
   { path: '/register', name: 'register', component: Cadastro, meta: { private: false } },
   { path: '/monitoring', name: 'monitoring', component: Monitoring, meta: { private: true } },
-  // { path: '/controlador', name: 'controlador', component: Controlador, meta: { private: true } },
+  { path: '/controller', name: 'controller', component: Controlador, meta: { private: true } },
 ];
 
 const router = new Router({
