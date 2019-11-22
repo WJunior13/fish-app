@@ -41,7 +41,7 @@
           <div class="d-flex justify-content-between">
             <span style="color:#333;" class="mt-1">
               Não possui conta?
-              <router-link class="nav-link" to="/cadastro">Cadastrar-se</router-link>
+              <router-link class="nav-link" to="/register">Cadastrar-se</router-link>
             </span>
           </div>
         </b-form>
