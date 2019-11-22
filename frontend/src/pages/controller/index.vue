@@ -70,7 +70,6 @@ export default {
   },
   computed: {
     ...mapState('controlador', ['controladores']),
-    ...mapState('sessao', ['usuario']),
   },
   async mounted() {
     try {
