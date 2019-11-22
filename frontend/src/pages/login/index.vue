@@ -103,7 +103,7 @@ export default {
       } catch (error) {
         this.setLogado(false);
 
-        notify.error({
+        notify.warning({
           title: 'Atenção',
           content: 'E-mail ou senha inválidos.',
           okColor: 'c-danger',

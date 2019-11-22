@@ -2,12 +2,11 @@
   <div>
     <div tabindex="-1" role="dialog" class="pro-modal-wrap-backdrop">
       <div role="document" class="pro-modal-body">
-        <!-- <faq v-if="type === 'confirm'" />
+        <faq v-if="type === 'confirm'" />
         <error v-else-if="type === 'error'" />
         <warning v-else-if="type === 'warning'" />
         <info v-else-if="type === 'info'" />
-       #COLOCAR ICONES
-        -->
+
         <div class="pro-notify-content">
           <h3>{{ title }}</h3>
           <span>{{ content }}</span>
@@ -43,8 +42,19 @@
 </template>
 
 <script>
+import Faq from '@/assets/faq.svg';
+import Error from '@/assets/error.svg';
+import Warning from '@/assets/warning.svg';
+import Info from '@/assets/info.svg';
+
 export default {
   name: 'Notify',
+  components: {
+    Faq,
+    Error,
+    Warning,
+    Info,
+  },
   props: {
     title: { type: String, default: '' },
     content: { type: String, default: '' },
