@@ -58,7 +58,7 @@
             Salvar Alterações
           </button>
 
-          <button type="button" class="btn btn-outline-danger mr-2" @click="closeModalUser()">
+          <button type="button" class="btn btn-outline-danger mr-2" @click="close()">
             <i class="far fa-times-circle"></i>
             Cancelar
           </button>
@@ -97,6 +97,9 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    close() {
+      this.$router.replace('/login');
     },
   },
 };
