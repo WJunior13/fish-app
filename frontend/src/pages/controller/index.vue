@@ -76,27 +76,15 @@ export default {
     ...mapState('controlador', ['controladores']),
   },
   async mounted() {
-    try {
-      this.clearFields();
-      const response = await api.get(`usuario/controlador`);
-      this.setControladores(response.data);
-    } catch (error) {
-      notify.error({
-        title: 'Atenção',
-        content: 'Erro ao remover Controladores.',
-        okColor: 'c-danger',
-        okText: 'Fechar',
-      });
-    }
+    this.clearFields();
+    this.loadDevices();
   },
   methods: {
     ...mapMutations('controlador', ['setControladores']),
     async remove(controller) {
       try {
         await api.delete(`usuario/controlador/${controller.id}`);
-
-        const controladores = this.controladores.filter(c => c.id !== controller.id);
-        this.setControladores(controladores);
+        this.loadDevices();
       } catch (error) {
         notify.error({
           title: 'Atenção',
@@ -109,12 +97,12 @@ export default {
     async save(controller) {
       try {
         if (controller.id) {
-          const newController = await api.put(`usuario/controlador/${controller.id}`, controller);
-          this.setControladores([...this.controladores.filter(c => c.id !== controller.id), newController]);
+          await api.put(`usuario/controlador/${controller.id}`, controller);
+          this.loadDevices();
           this.clearFields();
         } else {
-          const newController = await api.post('usuario/controlador', controller);
-          this.setControladores([...this.controladores, newController]);
+          await api.post('usuario/controlador', controller);
+          this.loadDevices();
           this.clearFields();
         }
       } catch (error) {
@@ -128,6 +116,19 @@ export default {
     },
     edit(controller) {
       this.selected = controller;
+    },
+    async loadDevices() {
+      try {
+        const response = await api.get(`usuario/controlador`);
+        this.setControladores(response.data);
+      } catch (error) {
+        notify.error({
+          title: 'Atenção',
+          content: 'Erro ao remover Controladores.',
+          okColor: 'c-danger',
+          okText: 'Fechar',
+        });
+      }
     },
     clearFields() {
       this.selected = {
