@@ -203,17 +203,18 @@
           <span>{{ dateTimeFormatted }}</span>
         </div>
         <div class="linha-setting">
-          <router-link to="/init">
-            <img src="@/assets/settings.svg" class="icone-settings" alt="imagem" @click="openSetup" />
+          <router-link to="/monitoring">
+            <Setting class="icone-settings" alt="imagem" @click="openSetup"/>
           </router-link>
         </div>
         <div class="linha-visor">
           <div id="description" class>
-            <img src="@/assets/bubbles.svg" alt="imagem" class="icone-bolha" />
+            <Bublee class="icone-bolha" />
           </div>
 
           <div id="temperatura" class="visor-temp">
-            <img src="@/assets/temperature.svg" alt="imagem" class="icone_Temperatura" />
+           
+            <TempIcon class="icone_Temperatura" />
             <span>21.4°C</span>
           </div>
         </div>
@@ -246,6 +247,9 @@ import UserModal from '@/components/UserModal';
 import Modal from '@/components/modal';
 import Swtich from '@/components/Switch.vue';
 import api from '@/services/api.js';
+import TempIcon from "@/assets/temperature.svg"
+import Setting from "@/assets/settings.svg"
+import Bublee from "@/assets/bubbles.svg"
 
 export default {
   name: 'InitApp',
@@ -253,6 +257,9 @@ export default {
     Modal,
     Swtich,
     UserModal,
+    TempIcon,
+    Setting,
+    Bublee,
   },
   data() {
     return {
@@ -292,13 +299,16 @@ export default {
   },
   methods: {
     getDateFormated() {
-      this.dateTimeFormatted = format(new Date(), 'dd/MM/yyyy hh:mm:ss');
+      this.dateTimeFormatted = format(new Date(), 'dd/MM/yyyy HH:mm:ss');
       setTimeout(() => {
         this.getDateFormated();
       }, 1000);
     },
     openTemp() {
       this.openTemp = true;
+    },
+    openSetup() {
+      this.showSetup = true;
     },
     closeModal() {
       this.showSetup = false;

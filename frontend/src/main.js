@@ -4,6 +4,7 @@ import * as uiv from 'uiv';
 import evnt from '@/plugins/events';
 
 import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
