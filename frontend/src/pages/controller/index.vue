@@ -13,7 +13,7 @@
             id="inline-form-input-username"
             placeholder="Nº de série"
             type="number"
-            v-model="selected.nserie"
+            v-model="selected.numeroSerie"
           ></b-input>
 
           <div class="alinhar-direita">
@@ -65,7 +65,11 @@ import notify from '@/components/notify';
 export default {
   data() {
     return {
-      selected: {},
+      selected: {
+        id: null,
+        descricao: '',
+        numeroSerie: '',
+      },
     };
   },
   computed: {
@@ -89,7 +93,7 @@ export default {
     ...mapMutations('controlador', ['setControladores']),
     async remove(controller) {
       try {
-        await api.delete(`controlador/${controller.id}`);
+        await api.delete(`usuario/controlador/${controller.id}`);
 
         const controladores = this.controladores.filter(c => c.id !== controller.id);
         this.setControladores(controladores);
@@ -105,11 +109,11 @@ export default {
     async save(controller) {
       try {
         if (controller.id) {
-          const newController = await api.put(`controlador/${controller.id}`, controller);
+          const newController = await api.put(`usuario/controlador/${controller.id}`, controller);
           this.setControladores([...this.controladores.filter(c => c.id !== controller.id), newController]);
           this.clearFields();
         } else {
-          const newController = await api.post('controlador', controller);
+          const newController = await api.post('usuario/controlador', controller);
           this.setControladores([...this.controladores, newController]);
           this.clearFields();
         }
@@ -126,7 +130,11 @@ export default {
       this.selected = controller;
     },
     clearFields() {
-      this.selected = {};
+      this.selected = {
+        id: null,
+        descricao: '',
+        numeroSerie: '',
+      };
     },
   },
 };
