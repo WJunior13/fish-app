@@ -138,7 +138,7 @@ export default {
   methods: {
     ...mapMutations('controlador', ['setConfig']),
     save(config) {
-      this.setConfig(config);
+       this.setConfig(config);
       this.close();
     },
     close() {

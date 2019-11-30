@@ -2,7 +2,8 @@ import axios from 'axios';
 import store from '@/vuex';
 
 const api = axios.create({
-  baseURL: 'https://back-end-fishapp.herokuapp.com',
+ baseURL: 'https://back-end-fishapp.herokuapp.com',
+// baseURL: 'http://localhost:8181'
 });
 
 api.interceptors.request.use(config => {
