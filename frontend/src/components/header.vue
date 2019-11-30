@@ -12,7 +12,7 @@
     <template v-else>
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <router-link class="nav-link" to="/monitoring">Monitoramento</router-link>
+          <router-link class="nav-link" to="/monitoring"><i class="fas fa-home"></i></router-link>
         </b-navbar-nav>
         <b-navbar-nav>
           <router-link class="nav-link" to="/controller">Controladores</router-link>

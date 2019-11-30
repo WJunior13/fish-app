@@ -36,13 +36,7 @@ div#app {
   height: 100%;
 }
 
-.imagem-fundo-app {
-  background-image: url('./assets/img_aquario.png');
-  background-size: cover;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-}
+
 
 .conteudo-router {
   position: relative;

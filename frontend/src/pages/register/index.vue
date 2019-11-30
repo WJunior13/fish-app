@@ -1,4 +1,4 @@
-<template>
+<template><div class="div-fundo">
   <div class="wrapper-cadastro">
     <div class="formulario">
       <h2 class="space">Cadastro de usuário</h2>
@@ -66,6 +66,7 @@
       </form>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -132,7 +133,7 @@ export default {
     input {
       margin-bottom: 8px;
     }
-
+   
     .alinhar-direita {
       display: flex;
       align-items: center;
@@ -140,5 +141,15 @@ export default {
       width: 100%;
     }
   }
+  .div-fundo {
+  position: absolute;
+  top: 150;
+  left: 0;
+  z-index: 11;
+  background-image:url('img_aquario.png');
+  width: 100%;
+  height: 100%;
+  filter: alpha(opacity=150);
+}
 }
 </style>

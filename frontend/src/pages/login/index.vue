@@ -1,4 +1,5 @@
 <template>
+<div class="div-fundo">
   <div class="conteudo-login">
     <div class="card-login p-1">
       <b-card style="width:100%;">
@@ -47,6 +48,7 @@
         </b-form>
       </b-card>
     </div>
+  </div>
   </div>
 </template>
 
@@ -129,6 +131,16 @@ export default {
     align-items: center;
     justify-content: center;
   }
+}
+.div-fundo {
+  position: absolute;
+  top: 150;
+  left: 0;
+  z-index: 11;
+  background-image:url('img_aquario.png');
+  width: 100%;
+  height: 100%;
+  filter: alpha(opacity=150);
 }
 
 .card-login {

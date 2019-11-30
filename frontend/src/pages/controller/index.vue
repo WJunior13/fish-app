@@ -1,12 +1,16 @@
 <template>
-  <div class="wrapper-controlador">
-    <div class="formulario">
-      <h3>Cadastrar Controlador</h3>
-
-      <div class="form-cadastro">
-        <b-form style="width:100%">
+     <div class="div-fundo">
+       <div>
+        <b-form inline @submit.prevent>
+          <h3>Cadastrar Controlador</h3>
+          <div class="form-cadastro"></div>
           <label class="sr-only" for="inline-form-input-desc">Descrição</label>
-          <b-input id="inline-form-input-name" placeholder="Descrição " v-model="selected.descricao"></b-input>
+          <b-input
+            id="inline-form-input-name"
+            class="mb-2 mr-sm-2 mb-sm-0"
+            placeholder="Descrição "
+             v-model="selected.descricao"
+          ></b-input>
 
           <label class="sr-only" for="inline-form-input-nserie">Número de série</label>
           <b-input
@@ -14,21 +18,16 @@
             placeholder="Nº de série"
             type="number"
             v-model="selected.numeroSerie"
+            
           ></b-input>
 
-          <div class="alinhar-direita">
-            <button class="btn btn-outline-success mr-2" type="button" @click="save(selected)">
-              <i class="far fa-save"></i>
-              Salvar
-            </button>
-            <button class="btn btn-outline-warning mr-2" type="button" @click="clearFields()">
-              <i class="far fa-save"></i>
-              Cancelar
-            </button>
-          </div>
+          <b-button pill variant="info" type="button"  @click="save(selected)">
+            <i class="far fa-save"></i> Salvar
+          </b-button>
         </b-form>
       </div>
-
+       
+       
       <table class="table">
         <thead class="thead-light">
           <tr>
@@ -38,6 +37,7 @@
           </tr>
         </thead>
         <tbody>
+         
           <tr v-for="controlador in controladores" :key="controlador.id">
             <td>{{ controlador.numeroSerie }}</td>
             <td>{{ controlador.descricao }}</td>
@@ -55,7 +55,7 @@
         </tbody>
       </table>
     </div>
-  </div>
+ 
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
@@ -141,44 +141,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.wrapper-controlador {
+.form-cadastro {
+  padding-left: 30px;
+  padding-top: 100px;
+}
+.div-fundo {
+  position: absolute;
+  top: 150;
+  left: 0;
+  z-index: 11;
+  background-image:url('aquario.jpg');
   width: 100%;
   height: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  div.formulario {
-    width: 100%;
-    max-width: 580px;
-    background: #fff !important;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 18px #cdcdcd;
-    border-radius: 6px;
-    padding: 11px 18px;
-
-    .form-cadastro {
-      margin: 20px 0px 35px;
-
-      input {
-        width: 100%;
-        margin-bottom: 13px;
-      }
-      .alinhar-direita {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        width: 100%;
-      }
-    }
-
-    .alinhar-direita {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      width: 100%;
-    }
-  }
+  filter: alpha(opacity=150);
 }
+
 </style>

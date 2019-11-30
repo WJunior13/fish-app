@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.private) {
     if (!isAuthenticated()) {
-      return next('/login');
+      return next('/home');
     }
 
     if (!routes.some(route => route.path === to.path)) {

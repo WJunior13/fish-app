@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="div-fundo">
     <UserModal />
     <ConfigModal />
     <HelpTemp />
@@ -10,7 +10,7 @@
           <span>{{ dateTimeFormatted }}</span>
         </div>
         <div class="linha-setting">
-          <Setting class="icone-settings" alt="imagem" @click="showSetup()" />
+          <Setting class="icone-settings" style="cursor:pointer;" alt="imagem" @click="showSetup()" />
         </div>
         <div class="linha-visor">
           <div id="description" class>
@@ -239,6 +239,16 @@ button {
 }
 .time2 {
   padding-left: 150px;
+}
+.div-fundo {
+  position: absolute;
+  top: 150;
+  left: 0;
+  z-index: 11;
+  background-image:url('img.png');
+  width: 100%;
+  height: 100%;
+  filter: alpha(opacity=150);
 }
 .close-title {
   padding-left: 180px;

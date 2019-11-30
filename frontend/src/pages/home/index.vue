@@ -15,12 +15,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-p {
-  background-color: rgba(239, 247, 250, 0.7);
-  font-size: 30px;
-  font-style: inherit;
-  size: 10;
-}
+
 .nav-background {
   background: #353535;
 }
