@@ -53,9 +53,12 @@
           <div class="row">
             Selecione o intervalo de temperatura:
             <div class="temp-info">
-              <a id="missionclick" class="moreinfo" style="cursor:pointer;" @click="openHelp()">
-                Dúvidas sobre a temperatura?
-              </a>
+              <a
+                id="missionclick"
+                class="moreinfo"
+                style="cursor:pointer;"
+                @click="openHelp()"
+              >Dúvidas sobre a temperatura?</a>
             </div>
           </div>
 
@@ -93,7 +96,12 @@
         <hr color="#cecece" />
 
         <div class="alinhar-direita">
-          <button type="button" class="btn btn-outline-success mr-2" data-dismiss="modal" @click="save(config)">
+          <button
+            type="button"
+            class="btn btn-outline-success mr-2"
+            data-dismiss="modal"
+            @click="save(config)"
+          >
             <i class="far fa-check-circle"></i>
             Salvar Alterações
           </button>
@@ -138,14 +146,14 @@ export default {
   methods: {
     ...mapMutations('controlador', ['setConfig']),
     save(config) {
-       this.setConfig(config);
+      this.setConfig(config);
       this.close();
     },
     close() {
       this.$evnt.emit('modal:paramscontroller', false);
     },
     getConfig() {
-      const cfg = cloneObject(this.$store.state.controlador.controlador);
+      const cfg = cloneObject(this.$store.state.controlador.controlador.config);
 
       this.config = {
         ...cfg,

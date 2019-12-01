@@ -10,7 +10,12 @@
           <span>{{ dateTimeFormatted }}</span>
         </div>
         <div class="linha-setting">
-          <Setting class="icone-settings" style="cursor:pointer;" alt="imagem" @click="showSetup()" />
+          <Setting
+            class="icone-settings"
+            style="cursor:pointer;"
+            alt="imagem"
+            @click="showSetup()"
+          />
         </div>
         <div class="linha-visor">
           <div id="description" class>
@@ -37,8 +42,14 @@
           </div>
 
           <div class="row">
-            <div id="tempMax" class="tempMax-data col-4 text-center">{{ controlador.tempMax }}°C</div>
-            <div id="tempMin" class="tempMin-data col-4 text-center">{{ controlador.tempMin }}°C</div>
+            <div
+              id="tempMax"
+              class="tempMax-data col-4 text-center"
+            >{{ controlador.config.tempMax }}°C</div>
+            <div
+              id="tempMin"
+              class="tempMin-data col-4 text-center"
+            >{{ controlador.config.tempMin }}°C</div>
           </div>
         </div>
       </div>
@@ -245,7 +256,7 @@ button {
   top: 150;
   left: 0;
   z-index: 11;
-  background-image:url('img.png');
+  background-image: url('img.png');
   width: 100%;
   height: 100%;
   filter: alpha(opacity=150);

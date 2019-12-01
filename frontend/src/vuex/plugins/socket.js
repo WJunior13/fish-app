@@ -8,7 +8,6 @@ export default function SocketPlugin(socket) {
 
     store.subscribe(({ type, payload }) => {
       if (type.includes('setConfig')) {
-        console.log('enviou pro back', payload)
         socket.emit('update:config:device', payload);
       }
     });
