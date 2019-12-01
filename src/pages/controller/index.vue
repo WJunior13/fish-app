@@ -127,7 +127,7 @@ export default {
           }else{
           notify.error({
           title: 'Atenção',
-          content: 'Erro ao salvar Controlador.',
+          content: 'Número de Série não Encontrado.',
           okColor: 'c-danger',
           okText: 'Fechar',
         });
