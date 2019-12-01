@@ -61,6 +61,7 @@
 import { mapState, mapMutations } from 'vuex';
 import api from '@/services/api';
 import notify from '@/components/notify';
+import cloneObject from '@/utils/cloneObject'
 
 export default {
   data() {
@@ -115,16 +116,17 @@ export default {
       }
     },
     edit(controller) {
-      this.selected = controller;
+      this.selected = cloneObject(controller);
     },
     async loadDevices() {
       try {
         const response = await api.get(`usuario/controlador`);
+        console.log(response.data)
         this.setControladores(response.data);
       } catch (error) {
         notify.error({
           title: 'Atenção',
-          content: 'Erro ao remover Controladores.',
+          content: 'Erro ao buscar Controladores.',
           okColor: 'c-danger',
           okText: 'Fechar',
         });

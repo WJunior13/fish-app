@@ -1,5 +1,6 @@
 /* eslint-disable no-shadow */
 import socket from '@/services/socket';
+import Vue from 'vue';
 
 const state = {
   controladores: [],
@@ -11,9 +12,9 @@ const state = {
       time1: null,
       time2: null,
       time3: null,
-      enableTime1: false,
-      enableTime2: false,
-      enableTime3: false,
+      enable1: false,
+      enable2: false,
+      enable3: false,
     }
   },
 };
@@ -37,9 +38,14 @@ const mutations = {
   },
 
   setConfig(vuexState, payload) {
-    console.log('configuracao do servidor', payload);
 
-    vuexState.controlador.config = payload;
+    Vue.set(vuexState.controlador, 'config', {
+      ...payload,
+      enable1: payload.enable1 == '0' ? false : true,
+      enable2: payload.enable2 == '0' ? false : true,
+      enable3: payload.enable3 == '0' ? false : true,
+    });
+    // vuexState.controlador.config = payload;
   },
 
   setControladores(vuexState, payload) {

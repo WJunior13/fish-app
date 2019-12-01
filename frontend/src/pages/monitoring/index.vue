@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { format } from 'date-fns';
 
 import UserModal from '@/components/UserModal';
@@ -89,8 +89,10 @@ export default {
   },
   mounted() {
     this.getDateFormated();
+    this.buscarConfiguracao();
   },
   methods: {
+    ...mapActions('controlador',['buscarConfiguracao']),
     showSetup() {
       this.$evnt.emit('modal:paramscontroller', true);
     },

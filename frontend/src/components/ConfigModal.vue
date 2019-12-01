@@ -7,11 +7,14 @@
         <div class="time1">
           <div class="row">
             Alimentação 1:
-            <swtich v-model="config.enableTime1" />
+               <div class="custom-control custom-switch ml-2">
+                <input  v-model="config.enable1" type="checkbox" class="custom-control-input" id="enable1">
+               <label class="custom-control-label" for="enable1"></label>
+              </div>
           </div>
           <time-picker
-            :value="config.time1"
-            :readonly="!config.enableTime1"
+            v-model="config.time1"
+            :readonly="!config.enable1"
             :show-meridian="false"
             format="HH:mm"
             icon-control-up="fas fa-plus-circle"
@@ -22,12 +25,15 @@
         <div class="time2">
           <div class="row">
             Alimentação 2:
-            <swtich v-model="config.enableTime2" />
+            <div class="custom-control custom-switch ml-2">
+                <input  v-model="config.enable2" type="checkbox" class="custom-control-input" id="enable2">
+               <label class="custom-control-label" for="enable2"></label>
+              </div>
           </div>
 
           <time-picker
-            :value="config.time2"
-            :readonly="!config.enableTime2"
+            v-model="config.time2"
+            :readonly="!config.enable2"
             format="HH:mm"
             :show-meridian="false"
             icon-control-up="fas fa-plus-circle"
@@ -38,11 +44,14 @@
       <div class="time3">
         <div class="row">
           Alimentação 3:
-          <swtich v-model="config.enableTime3" class="sw3" />
+           <div class="custom-control custom-switch ml-2">
+                <input  v-model="config.enable3" type="checkbox" class="custom-control-input" id="enable3">
+               <label class="custom-control-label" for="enable3"></label>
+              </div>
         </div>
         <time-picker
-          :value="config.time3"
-          :readonly="!config.enableTime3"
+          v-model="config.time3"
+          :readonly="!config.enable3"
           format="HH:mm"
           :show-meridian="false"
           icon-control-up="fas fa-plus-circle"
@@ -76,7 +85,7 @@
           <input
             type="range"
             min="10"
-            max="25"
+            max="30"
             step="0.1"
             value="10"
             oninput="this.parentNode.dataset.lbound=this.value;"
@@ -136,9 +145,9 @@ export default {
         time1: null,
         time2: null,
         time3: null,
-        enableTime1: false,
-        enableTime2: false,
-        enableTime3: false,
+        enable1: false,
+        enable2: false,
+        enable3: false,
       },
     };
   },
@@ -155,6 +164,8 @@ export default {
     getConfig() {
       const cfg = cloneObject(this.$store.state.controlador.controlador.config);
 
+      console.log(cfg)
+
       this.config = {
         ...cfg,
         time1: parseISO(cfg.time1),
@@ -165,6 +176,9 @@ export default {
     openHelp() {
       this.$evnt.emit('modal:helptemp', true);
     },
+    teste(e){
+      console.log(e)
+    }
   },
 };
 </script>
