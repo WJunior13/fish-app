@@ -31,6 +31,7 @@
       <table class="table">
         <thead class="thead-light">
           <tr>
+             <th scope="col">Selecionar</th>
             <th scope="col">Numero de Série</th>
             <th scope="col">Descrição</th>
             <th scope="col"></th>
@@ -39,6 +40,9 @@
         <tbody>
          
           <tr v-for="controlador in controladores" :key="controlador.id">
+            <th scope="col">
+                <b-form-checkbox :checked="true"></b-form-checkbox>
+              </th>
             <td>{{ controlador.numeroSerie }}</td>
             <td>{{ controlador.descricao }}</td>
             <td>

@@ -71,6 +71,7 @@ import { mapState, mapMutations } from 'vuex';
 import cloneObject from '@/utils/cloneObject';
 import api from '@/services/api';
 import Modal from './modal';
+import notify from '@/components/notify';
 
 export default {
   name: 'UserModal',
@@ -103,6 +104,12 @@ export default {
 
         this.setUsuario(usuario);
         this.closeModalUser();
+        notify.info({
+          title: 'Atenção',
+          content: 'Dados atualizados com sucesso',
+          okColor: 'c-primary',
+          okText: 'Fechar',
+          })
       } catch (error) {
         console.log(error);
         // exiibir erro pro usuario ou nao
