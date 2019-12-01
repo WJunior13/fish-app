@@ -1,4 +1,6 @@
 /* eslint-disable no-shadow */
+import socket from '@/services/socket';
+
 const state = {
   controladores: [],
   controlador: {
@@ -18,7 +20,15 @@ const state = {
 
 const getters = {};
 
-const actions = {};
+const actions = {
+  buscarConfiguracao({commit}){
+    socket.emit('buscarConfiguracao');
+
+    socket.on('servidor:buscarConfiguracao', configuracao=>{
+      commit('setConfig', configuracao);
+    })
+  }
+};
 
 const mutations = {
   setTemp(vuexState, payload) {
@@ -27,6 +37,8 @@ const mutations = {
   },
 
   setConfig(vuexState, payload) {
+    console.log('configuracao do servidor', payload);
+
     vuexState.controlador.config = payload;
   },
 
