@@ -22,6 +22,10 @@ const mutations = {
   setDataDevice(vuexState, payload) {
     vuexState.controlador = payload;
   },
+  setTemp(vuexState, payload) {
+    const { temp } = payload;
+    vuexState.controlador.temp = temp;
+  },
   setConfig(vuexState, payload) {
     const tempBackup = vuexState.controlador.temp;
 

@@ -2,8 +2,8 @@ import { CLIENT_RENEG_LIMIT } from "tls";
 
 export default function SocketPlugin(socket) {
   return store => {
-    socket.on('data:device', data => {
-      store.commit('controlador/setDataDevice', data);
+    socket.on('rasp:servidor:temperatura', data => {
+      store.commit('controlador/setTemp', data);
     });
 
     store.subscribe(({ type, payload }) => {
