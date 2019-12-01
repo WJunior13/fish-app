@@ -16,9 +16,9 @@
           <b-input
             id="inline-form-input-username"
             placeholder="Nº de série"
-            type="number"
+            type="text"
             v-model="selected.numeroSerie"
-            
+            :disabled="isDisabled"
           ></b-input>
 
           <b-button pill variant="info" type="button"  @click="save(selected)">
@@ -71,15 +71,18 @@ export default {
         descricao: '',
         numeroSerie: '',
       },
+      isDisabled: false
     };
   },
   computed: {
     ...mapState('controlador', ['controladores']),
+    
   },
   async mounted() {
     this.clearFields();
     this.loadDevices();
   },
+  
   methods: {
     ...mapMutations('controlador', ['setControladores']),
     async remove(controller) {
@@ -98,25 +101,42 @@ export default {
     async save(controller) {
       try {
         if (controller.id) {
-          await api.put(`usuario/controlador/${controller.id}`, controller);
+          await api.put(`usuario/controlador`, controller);
           this.loadDevices();
           this.clearFields();
+         
         } else {
           await api.post('usuario/controlador', controller);
           this.loadDevices();
           this.clearFields();
+       
         }
       } catch (error) {
-        notify.error({
+        if(controller.id){
+        notify.info({
+          title: 'Atenção',
+          content: 'Controlador atualizado',
+          okColor: 'c-primary',
+          okText: 'Fechar',
+          })
+          this.clearFields();
+          }else{
+          notify.error({
           title: 'Atenção',
           content: 'Erro ao salvar Controlador.',
           okColor: 'c-danger',
           okText: 'Fechar',
         });
+        this.clearFields();
+          }
+        
       }
     },
     edit(controller) {
       this.selected = cloneObject(controller);
+      this.$nextTick(()=>{
+        this.isDisabled = true;
+      });
     },
     async loadDevices() {
       try {
