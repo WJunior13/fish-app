@@ -1,6 +1,6 @@
 <template>
-  <div class="div-fundo">
-    <UserModal />
+ <div class="div-fundo">
+   <UserModal />
     <ConfigModal />
     <HelpTemp />
 
@@ -18,7 +18,7 @@
           />
         </div>
         <div class="linha-visor">
-          <div id="description" class>
+          <div id="description" class="bolha">
             <Bublee class="icone-bolha" />
           </div>
 
@@ -112,29 +112,42 @@ export default {
 }
 
 @media (max-width: 600px) {
+  
+  .box-monitoring {
+  color: #fff !important;
+  padding-left: 10px !important;
+  white-space: nowrap !important;
+  padding-top: 50px;
+}
+
   .linha-visor > .visor-temp {
-    font-size: 20px !important;
+    font-size: 90px !important;
+    padding-top: 10px;
+    padding-left: 250px !important;
+    padding-bottom: 50px;
+  }
+  .linha-visor > .visor-temp >.icone_Temperatura {
+    width: 110px;
+    height: 110px;
+    padding-right: 5px;
   }
   .hora {
-    font-size: 20px !important;
+    padding-inline-end: 10px;
+    font-size: 35px !important;
   }
   .container > .col-8 {
-    width: 270px;
-    height: 440px;
-    padding-top: 50px;
-    padding-right: 280px;
+
+    height: 450px;
+    padding-top: 10px;
+    padding-right: 400px;
   }
+ 
+
+    
   .modal-temp {
     font-size: 13px !important;
   }
-  .weather-body > .row > .tempMax,
-  .tempMin {
-    font-size: 17px !important;
-  }
-  .row > .tempMax-data,
-  .tempMin-data {
-    font-size: 20px !important;
-  }
+ 
   .time2 > .row {
     padding-left: -270px;
   }
@@ -146,15 +159,110 @@ export default {
   }
 
   .linha-setting > .icone-settings {
-    width: 15px;
-    height: 15px;
+    width: 40px;
+    height: 40px;
+      
   }
-
-  .linha-visor > .icone_Temperatura {
-    width: 5px;
-    height: 5px;
-  }
+ 
+.table {
+  font-size: 12px;
 }
+
+.cl {
+  padding-left: 240px;
+}
+
+.weather {
+  border: 1px solid white;
+  margin-top: 2rem !important;
+  background-color: rgba(4, 72, 83, 0.5);
+  border-radius: 20px !important;
+   
+  
+}
+
+.weather-body >.row >.tempMin{
+ padding-left: 50px !important;
+ padding-right: 215px !important;
+// padding-inline-end: 80px !important;
+ margin-bottom: 30px!important;
+ margin-top: -38px !important;
+ margin-left: 150px;
+ 
+}
+.weather-body >.row >.tempMin-data{
+ padding-left: 50px !important;
+ padding-right: 215px !important;
+// padding-inline-end: 80px !important;
+
+ margin-top: -68px !important;
+ margin-left: 150px;
+ 
+}
+.weather-body >.row >.tempMax{
+ padding-left: 10px !important;
+ padding-right: 200px !important;
+ margin-top: 20px;
+}
+.weather-body >.row >.tempMax-data{
+ padding-left: 10px !important;
+ padding-right: 200px !important;
+ margin-top: -30px;
+}
+
+.linha-visor {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 60px;
+}
+
+
+
+.tempMax,
+.tempMin {
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  font-size: 1.5rem;
+}
+
+
+.visor-temp {
+  display: flex;
+  align-items: center;
+}
+.linha-setting {
+  margin-top: -45px !important;
+  margin-left: 353px !important;
+}
+
+.visor-temp > span {
+  white-space: nowrap;
+  
+}
+
+#temperatura {
+  font-size: 15px ;
+  
+}
+
+
+#tempMax,
+#tempMin {
+  font-size: 2rem;
+  padding-top: 1px !important;
+  padding-bottom: 1rem !important;  
+  white-space: nowrap !important;
+
+}
+.labelMin {
+  padding-left: 10px;
+}
+.labelMax {
+  padding-left: 200px;
+}
+}
+//////////////////////////////////////////////////////
 .hora {
   font-size: 60px;
 }
@@ -213,7 +321,7 @@ export default {
 }
 
 .visor-temp > span {
-  display: relative;
+  display: fixed;
   margin-left: -18px;
 }
 
@@ -231,6 +339,7 @@ export default {
   font-size: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  
 }
 .labelMin {
   padding-left: 10px;
@@ -253,6 +362,7 @@ button {
 .time2 {
   padding-left: 150px;
 }
+
 .div-fundo {
   position: absolute;
   top: 150;
@@ -268,9 +378,6 @@ button {
 }
 .sw3 {
   padding-right: 360px;
-}
-.nav-color {
-  background: rgb(50, 80, 109);
 }
 
 .corpo-contador {
