@@ -121,25 +121,25 @@ export default {
 }
 
   .linha-visor > .visor-temp {
-    font-size: 90px !important;
+    font-size: 70px !important;
     padding-top: 10px;
-    padding-left: 250px !important;
+    padding-left: 200px !important;
     padding-bottom: 50px;
   }
   .linha-visor > .visor-temp >.icone_Temperatura {
-    width: 110px;
-    height: 110px;
+    width: 80px;
+    height: 80px;
     padding-right: 5px;
   }
   .hora {
     padding-inline-end: 10px;
-    font-size: 35px !important;
+    font-size: 28px !important;
   }
   .container > .col-8 {
 
     height: 450px;
     padding-top: 10px;
-    padding-right: 400px;
+    padding-right: 352px;
   }
  
 
@@ -182,16 +182,16 @@ export default {
 }
 
 .weather-body >.row >.tempMin{
- padding-left: 50px !important;
+ padding-left: 70px !important;
  padding-right: 215px !important;
 // padding-inline-end: 80px !important;
  margin-bottom: 30px!important;
  margin-top: -38px !important;
- margin-left: 150px;
+ margin-left: 80px;
  
 }
 .weather-body >.row >.tempMin-data{
- padding-left: 50px !important;
+ padding-left: 30px !important;
  padding-right: 215px !important;
 // padding-inline-end: 80px !important;
 
@@ -233,7 +233,7 @@ export default {
 }
 .linha-setting {
   margin-top: -45px !important;
-  margin-left: 353px !important;
+  margin-left: 310px !important;
 }
 
 .visor-temp > span {
